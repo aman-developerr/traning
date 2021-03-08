@@ -1,0 +1,15 @@
+<form method="post">
+    {% csrf_token %}
+    current Project:
+    <input type="text" name="current_project" value="{{ routine.current_project }}"><br>
+    billable task:
+    <input type="text" name="billable_task" value="{{ routine.billable_task }}"><br>
+    Break time:
+    <input type="text" name="break_time" value="{{ routine.break_time }}"><br>
+    Task Owner:
+    <input type="text" name="task_owner" value="{{ routine.task_owner }}"><br>
+    Approved By:
+    <input type="text" name="approved_by" value="{{ routine.approved_by }}"><br>
+    <input type="submit" value="edit">
+</form>
+
