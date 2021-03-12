@@ -18,8 +18,6 @@
         </tr>
         </thead>
         <tbody>
-
-
     {% for routine in routines %}
         <tr>
             <td>{{ routine.today_date }}</td>
@@ -38,6 +36,7 @@
     {% endfor %}
         </tbody>
     </table>
+{% else %}
+    <h2 class="text-white">Details Not Updated!!</h2>
 {% endif %}
-
 {% endblock %}

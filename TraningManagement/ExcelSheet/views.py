@@ -8,6 +8,7 @@ import datetime as dt
 import socket
 from geopy.geocoders import Nominatim
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 geolocator = Nominatim(user_agent="geoapiExercises")
 
@@ -55,6 +56,7 @@ def user_profile(request, pk):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
 
 @login_required(login_url=login_url)
 def today(request):
@@ -153,6 +155,23 @@ def trainee_details(request, pk):
     return render(request, 'trainee_profile.html', context=context)
 
 
+@login_required(login_url=login_url)
+def notifications(request, pk):
+    if request.method == 'POST':
+        routine = Routine.objects.get(pk=pk)
+        approval = request.POST.get('approval')
+        if approval == 'approved':
+            routine.approved_by = str(request.user)
+            routine.save()
+        return HttpResponseRedirect('/notifications/' + str(request.user.id) + '/')
+    else:
+        routines = Routine.objects.filter(
+            Q(approved_by__istartswith=str(request.user)) and Q(task_owner__contains=str(request.user)) and Q(
+                approved_by__icontains=str(request.user)))
+        context = {'routines': routines}
+        return render(request, 'notification.html', context)
+
+
 def test(request):
     b = 12
     # a = Routine.objects.filter(user_id=request.user.id)._values('pk')
@@ -165,7 +184,6 @@ def test(request):
 
     else:
         abc = 'efg'
-
 
     return render(request, 'test.html', {'a': abc})
 
@@ -180,20 +198,3 @@ def test(request):
     # # print(todays_date, date)
     # # if todays_date.today_date == date:
     # #     date = 'true'
-
-from django.db.models import Q
-
-@login_required(login_url=login_url)
-def notifications(request, pk):
-    if request.method == 'POST':
-        routine = Routine.objects.get(pk=pk)
-        approval = request.POST.get('approval')
-        print('aman paliwal')
-        if approval == 'approved':
-            routine.approved_by = str(request.user)
-            routine.save()
-        return HttpResponseRedirect('/notifications/'+str(request.user.id)+'/')
-    else:
-        routines = Routine.objects.filter(Q(approved_by__icontains=str(request.user)) and Q(task_owner__contains=str(request.user)))
-        context = {'routines':routines}
-        return render(request,'notification.html',context)

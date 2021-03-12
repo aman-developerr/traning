@@ -11,7 +11,6 @@ Notifications
             <tr>
                 <td>Name</td>
                 <td>Date</td>
-                <td>id</td>
                 <td>check in time</td>
                 <td>check out time</td>
                 <td>Current project</td>
@@ -27,7 +26,6 @@ Notifications
                 <tr>
                     <td>{{ routine.user_id.username }}</td>
                     <td>{{ routine.today_date }}</td>
-                    <td>{{ routine.id }}</td>
                     <td>{{ routine.check_in_times }}</td>
                     <td>{{ routine.check_out_time }}</td>
                     <td>{{ routine.current_project }}</td>
@@ -50,6 +48,8 @@ Notifications
         {% endfor %}
             </tbody>
         </table>
+    {% else %}
+        <h2 class="text-white">No Notifications</h2>
     {% endif %}
 
 {% else %}

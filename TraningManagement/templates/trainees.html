@@ -26,12 +26,7 @@ Trainee
                 {% endfor %}
             </tbody>
         </table>
+    {% else %}
+        <h2 class="text-white"> No Trainees</h2>
     {% endif %}
-
-
 {% endblock %}
-{% for trainee in trainees %}
-    <a href="{% url 'trainee_details' trainee.id %}">id</a>
-    {{ trainee.username }} <br>
-    {{ trainee.id }}
-{% endfor %}

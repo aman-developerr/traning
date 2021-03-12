@@ -4,43 +4,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <style>
-    body
+body
 {
   background: #000000;
 }
-
 </style>
 
-<script>
-var longitude = document.getElementById("longitude");
-var latitude = document.getElementById("latitude");
-
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else {
-    longitude = 0;
-    latitude = 0;
-  }
-}
-
-function showPosition(position) {
-    latitude.value = position.coords.latitude;
-    longitude.value = position.coords.longitude;
-    myFunction();
- }
- function myFunction() {
-  var loc = document.getElementById("loc");
-  var chec = document.getElementById("checkbtn");
-  ifelsedisply(loc);
-  ifelsedisply(chec);
-  function ifelsedisply(x){
-        if (x.style.display === "none") {
-            x.style.display = "block";
-          } else {
-            x.style.display = "none";
-          }
-  }
-
-}
-</script>
