@@ -1,2 +1,24 @@
-{{ date }}
-{#{{ date.today_date }}#}
+{#{{ date }}#}
+{% load template_auth %}
+{{ a }}
+{% if 'trainers'|has_group:request.user.id %}
+    <p>User belongs to my group</p>
+{% else %}
+    <h2>no belongs to group </h2>
+{% endif %}
+
+
+
+{{ todays_date }}
+<br>
+<br>
+<br>
+<br>
+
+
+<br>
+<br>
+<br>
+{{ request.user }}
+{{ request.user.id }}
+

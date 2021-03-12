@@ -1,0 +1,56 @@
+{% load template_auth %}
+
+{% if 'trainers'|has_group:request.user.id %}
+
+    {% if routines %}
+        <table border="1px solid black">
+            <thead>
+            <tr>
+                <td>Name</td>
+                <td>Date</td>
+                <td>id</td>
+                <td>check in time</td>
+                <td>check out time</td>
+                <td>Current project</td>
+                <td>Billiable Task</td>
+                <td>Break Timing</td>
+                <td>Task Owner</td>
+                <td>Approved By</td>
+                <td>Actions</td>
+            </tr>
+            </thead>
+            <tbody>
+
+
+        {% for routine in routines %}
+            <tr>
+                <td>{{ routine.user_id.username }}</td>
+                <td>{{ routine.today_date }}</td>
+                <td>{{ routine.id }}</td>
+                <td>{{ routine.check_in_times }}</td>
+                <td>{{ routine.check_out_time }}</td>
+                <td>{{ routine.current_project }}</td>
+                <td>{{ routine.billable_task }}</td>
+                <td>{{ routine.break_time }}</td>
+                <td>{{ routine.task_owner }}</td>
+                <td>{{ routine.approved_by }}</td>
+                <td>
+                    <form method="post" action="{% url 'notifications' routine.id %}">
+                        {% csrf_token %}
+                        <select name="approval">
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                        </select>
+                        <input type="submit" value="Confirm">
+                    </form>
+                </td>
+
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% else %}
+    <h1>You are not Trainer</h1>
+{% endif %}

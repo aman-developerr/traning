@@ -8,5 +8,8 @@ urlpatterns = [
     path('today/', views.today, name='today'),
     path('t/', views.test),
     path('edit_routine/<int:pk>/', views.edit_routine, name='edit_routine'),
+    path('trainee/', views.trainee, name='trainee'),
+    path('trainee_details/<int:pk>/', views.trainee_details, name='trainee_details'),
+    path('notifications/<int:pk>/', views.notifications, name='notifications'),
     # path('check_in/', views.check_in, name='check_in'),
 ]
