@@ -3,9 +3,24 @@
 Login
 {% endblock %}
 {% block body %}
-<form method="post">
-    {% csrf_token %}
-    {{ forms.as_p }}
-    <input type="submit" value="Login">
-</form>
+   <div class="container">
+        <div class="row">
+            <div class="offset-md-4 col-md-4 offset-sm-3 col-sm-6">
+                <form method="post" class="text-white">
+                    {% csrf_token %}
+                    {{ forms.username.label }}
+                    {{ forms.username }}<br>
+                    {{ forms.password.label }}
+                    {{ forms.password }}<br>
+                    <center>
+                        <input type="submit" class="btn btn-outline-light" value="Login">
+                    </center>
+                </form>
+            </div>
+        </div>
+   </div>
+    <script>
+        document.getElementById("id_username").className = "form-control";
+        document.getElementById("id_password").className = "form-control";
+    </script>
 {% endblock %}

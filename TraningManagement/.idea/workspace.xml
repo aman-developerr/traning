@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c6993913-e357-4003-aa18-6ef48df3d94f" name="Default Changelist" comment="" />
+    <list default="true" id="c6993913-e357-4003-aa18-6ef48df3d94f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExcelSheet/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExcelSheet/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cdn.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cdn.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/edit_routine.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/edit_routine.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/notification.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/notification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/today.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/today.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/trainee_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trainee_profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/trainees.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trainees.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,6 +65,11 @@
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Compressed/django-ecommerce-master/django-ecommerce-master" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
+  <component name="Push.Settings">
+    <force-push-targets>
+      <force-push-target remote-path="origin" branch="main" />
+    </force-push-targets>
+  </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Cubexo\Traning app\TraningManagement\ExcelSheet\templatetags" />
@@ -101,7 +119,7 @@
       <workItem from="1615354376914" duration="7896000" />
       <workItem from="1615462701501" duration="337000" />
       <workItem from="1615464826521" duration="7077000" />
-      <workItem from="1615528278190" duration="14567000" />
+      <workItem from="1615528278190" duration="21693000" />
     </task>
     <task id="LOCAL-00001" summary="virtual environment created">
       <created>1615023175179</created>
@@ -145,7 +163,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615543752474</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Back-end 2">
+      <created>1615544086067</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1615544086067</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,6 +229,7 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="requirement added" />
     <MESSAGE value="Back-end 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Back-end 1" />
+    <MESSAGE value="Back-end 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Back-end 2" />
   </component>
 </project>

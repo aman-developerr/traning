@@ -1,45 +1,43 @@
+{% extends 'base.html'%}
 {% load template_auth %}
-
-{% if 'trainers'|has_group:request.user.id %}
-    <a href="{% url 'trainee' %}">Trainee Details</a>
-{% endif %}
-
-<br>
-<br>
-<a href="{% url 'logout' %}"> Click me to logout</a>
-
-
-<br>
-
-{% if routines %}
-    <table border="1px solid black">
-        <thead>
-        <tr>
-            <td>Date</td>
-            <td>check in time</td>
-            <td>check out time</td>
-            <td>Current project</td>
-            <td>Billiable Task</td>
-            <td>Break Timing</td>
-            <td>Task Owner</td>
-            <td>Approved By</td>
-        </tr>
-        </thead>
-        <tbody>
+{% block title %}
+Trainee Details
+{% endblock %}
+{% block body %}
+    {% if routines %}
+        <table class="table text-white text-center table-hover">
+            <thead>
+            <tr>
+                <td>Date</td>
+                <td>check in time</td>
+                <td>check out time</td>
+                <td>Current project</td>
+                <td>Billiable Task</td>
+                <td>Break Timing</td>
+                <td>Task Owner</td>
+                <td>Approved By</td>
+            </tr>
+            </thead>
+            <tbody>
 
 
-    {% for routine in routines %}
-        <tr>
-            <td>{{ routine.today_date }}</td>
-            <td>{{ routine.check_in_times }}</td>
-            <td>{{ routine.check_out_time }}</td>
-            <td>{{ routine.current_project }}</td>
-            <td>{{ routine.billable_task }}</td>
-            <td>{{ routine.break_time }}</td>
-            <td>{{ routine.task_owner }}</td>
-            <td>{{ routine.approved_by }}</td>
-        </tr>
-    {% endfor %}
-        </tbody>
-    </table>
-{% endif %}
+        {% for routine in routines %}
+            <tr>
+                <td>{{ routine.today_date }}</td>
+                <td>{{ routine.check_in_times }}</td>
+                <td>{{ routine.check_out_time }}</td>
+                <td>{{ routine.current_project }}</td>
+                <td>{{ routine.billable_task }}</td>
+                <td>{{ routine.break_time }}</td>
+                <td>{{ routine.task_owner }}</td>
+                <td>{{ routine.approved_by }}</td>
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
+
+
+
+

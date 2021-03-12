@@ -1,9 +1,12 @@
+{% extends 'base.html' %}
 {% load template_auth %}
-
+{% block title %}
+Notifications
+{% endblock %}
+{% block body %}
 {% if 'trainers'|has_group:request.user.id %}
-
     {% if routines %}
-        <table border="1px solid black">
+        <table class="table text-white text-center table-hover">
             <thead>
             <tr>
                 <td>Name</td>
@@ -20,32 +23,30 @@
             </tr>
             </thead>
             <tbody>
-
-
-        {% for routine in routines %}
-            <tr>
-                <td>{{ routine.user_id.username }}</td>
-                <td>{{ routine.today_date }}</td>
-                <td>{{ routine.id }}</td>
-                <td>{{ routine.check_in_times }}</td>
-                <td>{{ routine.check_out_time }}</td>
-                <td>{{ routine.current_project }}</td>
-                <td>{{ routine.billable_task }}</td>
-                <td>{{ routine.break_time }}</td>
-                <td>{{ routine.task_owner }}</td>
-                <td>{{ routine.approved_by }}</td>
-                <td>
-                    <form method="post" action="{% url 'notifications' routine.id %}">
-                        {% csrf_token %}
-                        <select name="approval">
-                            <option value="pending">Pending</option>
-                            <option value="approved">Approved</option>
-                        </select>
-                        <input type="submit" value="Confirm">
-                    </form>
-                </td>
-
-            </tr>
+            {% for routine in routines %}
+                <tr>
+                    <td>{{ routine.user_id.username }}</td>
+                    <td>{{ routine.today_date }}</td>
+                    <td>{{ routine.id }}</td>
+                    <td>{{ routine.check_in_times }}</td>
+                    <td>{{ routine.check_out_time }}</td>
+                    <td>{{ routine.current_project }}</td>
+                    <td>{{ routine.billable_task }}</td>
+                    <td>{{ routine.break_time }}</td>
+                    <td>{{ routine.task_owner }}</td>
+                    <td>{{ routine.approved_by }}</td>
+                    <td>
+                        <form method="post" class="form-inline" action="{% url 'notifications' routine.id %}">
+                            {% csrf_token %}
+                            <select name="approval" class="form-control">
+                                <option value="pending">Pending</option>
+                                <option value="approved">Approved</option>
+                            </select>
+                            &nbsp;&nbsp;&nbsp;
+                            <input type="submit" class="btn btn-outline-danger" value="Confirm">
+                        </form>
+                    </td>
+                </tr>
         {% endfor %}
             </tbody>
         </table>
@@ -54,3 +55,4 @@
 {% else %}
     <h1>You are not Trainer</h1>
 {% endif %}
+{% endblock %}

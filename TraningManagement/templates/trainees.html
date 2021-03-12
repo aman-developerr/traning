@@ -1,9 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}
+Trainee
+{% endblock %}
+{% block body %}
+    {% if trainees %}
+        <table class="table text-white table-hover">
+            <thead>
+                <tr>
+                    <td>Username</td>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                    <td>Email</td>
+                    <td>Details</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trainee in trainees %}
+                    <tr>
+                        <td>{{ trainee.username }}</td>
+                        <td>{{ trainee.first_name }}</td>
+                        <td>{{ trainee.last_name }}</td>
+                        <td>{{ trainee.email }}</td>
+                        <td><a href="{% url 'trainee_details' trainee.id %}">Details</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+
+{% endblock %}
 {% for trainee in trainees %}
     <a href="{% url 'trainee_details' trainee.id %}">id</a>
     {{ trainee.username }} <br>
     {{ trainee.id }}
-<br>
-<br>
-<br>
-
 {% endfor %}

@@ -1,21 +1,41 @@
-<form method="post">
-    {% csrf_token %}
-    current Project:
-    <input type="text" name="current_project" value="{{ routine.current_project }}"><br>
-    billable task:
-    <input type="text" name="billable_task" value="{{ routine.billable_task }}"><br>
-    Break Time:
-    <input type="text" name="break_time" value="{{ routine.break_time }}"><br>
-    Task Owner:
-    <select name="task_owner">
-        <option value="me">Me</option>
-        {% for trainer in trainers %}
-            <option value="{{ trainer.username }}">{{ trainer.username }}</option>
-        {% endfor %}
-    </select>
-    <br>
+{% extends 'base.html' %}
+{% block title %}
+Edit Routine
+{% endblock %}
+{% block body %}
+   <div class="container">
+        <div class="row">
+            <div class="col-sm-12 offset-md-4 col-md-4 offset-lg-4 col-lg-4   text-white">
+                <form method="post">
+                    {% csrf_token %}
+                    Current Project:
+                    <input type="text" class="form-control" name="current_project" value="{{ routine.current_project }}"><br>
+                    Billable Task:
+                    <textarea name="billable_task" class="form-control" >{{ routine.billable_task }}</textarea>
+                   <br>
+                    Break Time:
+                    <textarea name="break_time" class="form-control" >{{ routine.break_time }}</textarea><br>
+                    Task Owner:
+                    <label class="form-label">
+                        <select name="task_owner" class="form-control">
+                            <option value="me">Me</option>
+                            {% for trainer in trainers %}
+                                <option value="{{ trainer.username }}">{{ trainer.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <br>
+                <center>
 
-    <input type="submit" value="edit">
+                    <input type="submit" class="btn btn-outline-info form-control" value="Edit">
+                </center>
 
-</form>
+                </form>
+
+            </div>
+        </div>
+   </div>
+{% endblock %}
+
+
 
