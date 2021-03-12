@@ -1,39 +1,9 @@
+{% extends 'base.html' %}
 {% load template_auth %}
-
-{% if messages %}
-    {% for message in messages %}
-        {{ message }}
-    {% endfor %}
-{% endif %}
-
-{{ name }}
-
-<br>
-
-{{ ip }}
-
-<br>
-
-<a href="{% url 'today' %}">Today</a>
-<br>
-<br>
-<br>
-<br>
-
-{% if 'trainers'|has_group:request.user.id %}
-    <a href="{% url 'trainee' %}">Trainee Details</a><br>
-    <a href="{% url 'notifications' request.user.id %}">Notifications</a><br>
-{% endif %}
-
-<br>
-<br>
-<a href="{% url 'logout' %}"> Click me to logout</a>
-
-
-<br>
+{% block body %}
 
 {% if routines %}
-    <table border="1px solid black">
+    <table  class="text-white table">
         <thead>
         <tr>
             <td>Date</td>
@@ -69,3 +39,5 @@
         </tbody>
     </table>
 {% endif %}
+
+{% endblock %}

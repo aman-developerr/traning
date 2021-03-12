@@ -13,7 +13,7 @@ geolocator = Nominatim(user_agent="geoapiExercises")
 
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
-login_url = '/login/'
+login_url = '/'
 
 
 def get_client_ip(request):
@@ -38,7 +38,6 @@ def user_login(request):
                     messages.success(request, 'login successful!!!')
                     return HttpResponseRedirect('/profile/' + str(request.user.id) + '/')
             return HttpResponse('form is invalid')
-
         else:
             forms = AuthenticationForm()
         return render(request, 'login.html', {'forms': forms, 'messages': messages})
@@ -48,17 +47,16 @@ def user_login(request):
 
 @login_required(login_url=login_url)
 def user_profile(request, pk):
-    ip = get_client_ip(request)
     routines = Routine.objects.filter(user_id=request.user.id).order_by('-today_date')
-    context = {'name': request.user, 'routines': routines, 'ip': ip}
+    context = {'routines': routines}
     return render(request, 'profile.html', context=context)
 
 
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect('/login/')
+    return HttpResponseRedirect('/')
 
-
+@login_required(login_url=login_url)
 def today(request):
     todays_date = Routine.objects.filter(user_id=request.user.id).order_by('-today_date').first()
     date = dt.datetime.today().date()
@@ -135,7 +133,7 @@ def edit_routine(request, pk):
                 trainers = User.objects.filter(groups__name='trainers')
                 context = {'user': request.user, 'routine': routine, 'trainers': trainers}
                 return render(request, 'edit_routine.html', context=context)
-    return HttpResponseRedirect('/login/')
+    return HttpResponseRedirect('/')
 
 
 @login_required(login_url=login_url)
@@ -145,8 +143,7 @@ def trainee(request):
         context = {'trainees': trainees}
         return render(request, 'trainees.html', context)
     else:
-        context = {'todays_date': 'fjhasjdlfj'}
-        return render(request, 'test.html', context=context)
+        return HttpResponseRedirect('/')
 
 
 @login_required(login_url=login_url)

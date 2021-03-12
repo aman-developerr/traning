@@ -1,24 +1,33 @@
-
-<h1>{{ check }}</h1>
-
-<form method="post">
-    {% csrf_token %}
-    {% if check == 0 %}
-        <input type="text" disabled value="{{ todays_date }}">
-        <input type="text" id="longitude" name="longitude">
-        <input type="text" id="latitude" name="latitude">
-        <p class="btn btn-success" id="loc" onclick="getLocation()">Get location and wait for 5 second</p>
-        <input type="submit" id="checkbtn" style="display: none" value="check-in">
-    {% elif check == 1 %}
-        <input type="text" disabled value="{{ todays_date }}">
-        <input type="text" id="longitude" name="longitude">
-        <input type="text" id="latitude" name="latitude">
-        <p class="btn btn-success" id="loc" onclick="getLocation()">Get location and wait for 5 second</p>
-        <input type="submit" id="checkbtn" style="display: none" value="check-out">
-    {% else %}
-        <h3>Your check in check out done</h3>
-    {% endif %}
-</form>
+{% extends 'base.html' %}
+{% block title %}
+Today
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="offset-4 col-md-4">
+                <form method="post">
+                    {% csrf_token %}
+                    {% if check == 0 %}
+                        <h4 class="text-white">Todays Check in</h4>
+                        <input type="text" class="form-control" disabled value="{{ todays_date }}">
+                        <input type="hidden" id="longitude" name="longitude">
+                        <input type="hidden" id="latitude" name="latitude"><br>
+                        <p class="btn btn-success" id="loc" onclick="getLocation()">Get location</p>
+                        <input type="submit" id="checkbtn" class="btn btn-primary" style="display: none" value="Check-In">
+                    {% elif check == 1 %}
+                        <input type="text" disabled value="{{ todays_date }}">
+                        <input type="text" id="longitude" name="longitude">
+                        <input type="text" id="latitude" name="latitude"><br>
+                        <p class="btn btn-success" id="loc" onclick="getLocation()">Get location and wait for 5 second</p>
+                        <input type="submit" id="checkbtn" style="display: none" value="check-out">
+                    {% else %}
+                        <h3>Your check in check out done</h3>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
 
 <script>
 var longitude = document.getElementById("longitude");
@@ -53,3 +62,4 @@ function showPosition(position) {
 
 }
 </script>
+{% endblock %}
