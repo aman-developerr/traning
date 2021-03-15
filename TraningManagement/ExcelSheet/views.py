@@ -162,12 +162,13 @@ def notifications(request, pk):
         approval = request.POST.get('approval')
         if approval == 'approved':
             routine.approved_by = str(request.user)
-            routine.save()
+        else:
+            routine.approved_by = approval
+        routine.save()
         return HttpResponseRedirect('/notifications/' + str(request.user.id) + '/')
     else:
-        routines = Routine.objects.filter(
-            Q(approved_by__istartswith=str(request.user)) and Q(task_owner__contains=str(request.user)) and Q(
-                approved_by__icontains=str(request.user)))
+        # routines = Routine.objects.filter(Q(task_owner__contains=str(request.user)),(Q(approved_by__icontains='pending') | Q(approved_by__icontains=str(request.user))))
+        routines = Routine.objects.filter().order_by('-today_date')
         context = {'routines': routines}
         return render(request, 'notification.html', context)
 

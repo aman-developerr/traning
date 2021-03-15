@@ -2,14 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6993913-e357-4003-aa18-6ef48df3d94f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/TraningManagement.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TraningManagement.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExcelSheet/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExcelSheet/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExcelSheet/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExcelSheet/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/cdn.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cdn.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/notification.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/notification.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/trainee_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trainee_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/trainees.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trainees.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +60,9 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Compressed/django-ecommerce-master/django-ecommerce-master" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="Push.Settings">
@@ -115,7 +119,10 @@
       <workItem from="1615354376914" duration="7896000" />
       <workItem from="1615462701501" duration="337000" />
       <workItem from="1615464826521" duration="7077000" />
-      <workItem from="1615528278190" duration="22990000" />
+      <workItem from="1615528278190" duration="24779000" />
+      <workItem from="1615568440036" duration="2415000" />
+      <workItem from="1615617293075" duration="807000" />
+      <workItem from="1615792519324" duration="6778000" />
     </task>
     <task id="LOCAL-00001" summary="virtual environment created">
       <created>1615023175179</created>
@@ -173,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615554086963</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="UI 2">
+      <created>1615555393656</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1615555393656</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -225,6 +239,7 @@
         <entry key="1" value="TOOL_WINDOW" />
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="virtual environment created" />
@@ -234,6 +249,7 @@
     <MESSAGE value="Back-end 1" />
     <MESSAGE value="Back-end 2" />
     <MESSAGE value="UI 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="UI 1" />
+    <MESSAGE value="UI 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="UI 2" />
   </component>
 </project>

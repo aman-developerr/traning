@@ -6,25 +6,26 @@ Notifications
 {% block body %}
 {% if 'trainers'|has_group:request.user.id %}
     {% if routines %}
-        <table class="table text-white text-center table-hover">
+        <table class="table text-white text-center" id="table1">
             <thead>
             <tr>
-                <td>Name</td>
-                <td>Date</td>
-                <td>check in time</td>
-                <td>check out time</td>
-                <td>Current project</td>
-                <td>Billiable Task</td>
-                <td>Break Timing</td>
-                <td>Task Owner</td>
-                <td>Approved By</td>
-                <td>Actions</td>
+                <th>Name</th>
+                <th>Date</th>
+                <th>check in time</th>
+                <th>check out time</th>
+                <th>Current project</th>
+                <th>Billiable Task</th>
+                <th>Break Timing</th>
+                <th>Task Owner</th>
+                <th>Approved By</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             {% for routine in routines %}
                 <tr>
-                    <td>{{ routine.user_id.username }}</td>
+                    <td><b>
+                        {{ routine.user_id.username }}</b></td>
                     <td>{{ routine.today_date }}</td>
                     <td>{{ routine.check_in_times }}</td>
                     <td>{{ routine.check_out_time }}</td>
@@ -34,15 +35,19 @@ Notifications
                     <td>{{ routine.task_owner }}</td>
                     <td>{{ routine.approved_by }}</td>
                     <td>
-                        <form method="post" class="form-inline" action="{% url 'notifications' routine.id %}">
-                            {% csrf_token %}
-                            <select name="approval" class="form-control">
-                                <option value="pending">Pending</option>
-                                <option value="approved">Approved</option>
-                            </select>
-                            &nbsp;&nbsp;&nbsp;
-                            <input type="submit" class="btn btn-outline-danger" value="Confirm">
-                        </form>
+                        {% if routine.approved_by == 'Pending'%}
+                            <form method="post" class="form-inline" action="{% url 'notifications' routine.id %}">
+                                {% csrf_token %}
+                                <select name="approval" class="form-control">
+                                    <option value="Pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                </select>
+                                &nbsp;&nbsp;&nbsp;
+                                <input type="submit" class="btn btn-outline-danger" value="Confirm">
+                            </form>
+                        {% else %}
+                            Approved
+                        {% endif %} 
                     </td>
                 </tr>
         {% endfor %}
@@ -55,4 +60,39 @@ Notifications
 {% else %}
     <h1>You are not Trainer</h1>
 {% endif %}
+  <script>
+    $(document).ready(function () {
+      $('#table1').DataTable();
+    });
+  </script>
 {% endblock %}
+
+
+
+white_tick
+eyes
+raised_hands
+
+
+
+
+
+15:03
+<table class="table table-bordered table-responsive text-center bg-light" id="table1">
+        <thead>
+          <tr>
+            <th>Sr.No.</th>
+            <th>Technology</th>
+            <th>Task Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in user_task %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.technology}}</td>
+            <td>{{i.task}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
