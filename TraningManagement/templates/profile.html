@@ -1,42 +1,75 @@
 {% extends 'base.html' %}
-{% load template_auth %}
+{% load static   %}
+{% block page_name %}
+Profile
+{% endblock %}
+
+{% block page %}
+Profile
+{% endblock %}
+
+{% block title %}
+Profile
+{% endblock %}
+
 {% block body %}
 
-{% if routines %}
-    <table  class="text-white table table-hover">
-        <thead>
-        <tr>
-            <td>Date</td>
-            <td>check in time</td>
-            <td>check out time</td>
-            <td>Current project</td>
-            <td>Billiable Task</td>
-            <td>Break Timing</td>
-            <td>Task Owner</td>
-            <td>Approved By</td>
-            <td>Actions</td>
-        </tr>
-        </thead>
-        <tbody>
-    {% for routine in routines %}
-        <tr>
-            <td>{{ routine.today_date }}</td>
-            <td>{{ routine.check_in_times }}</td>
-            <td>{{ routine.check_out_time }}</td>
-            <td>{{ routine.current_project }}</td>
-            <td>{{ routine.billable_task }}</td>
-            <td>{{ routine.break_time }}</td>
-            <td>{{ routine.task_owner }}</td>
-            <td>{{ routine.approved_by }}</td>
+      <section class="login-block">
+       <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form class="md-float-material form-material" method="post">
+                        {% csrf_token %}
+                        <div class="auth-box card">
+                            <div class="card-block">
+                                <div class="row m-b-20">
+                                    <div class=" offset-md-4 col-md-4 justify-content-around">
+                                        <img class="img-100 img-radius"  src="{% get_static_prefix %}images/avatar-4.jpg" alt="Profile">
+                                    </div>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <label class="col-form-label">Username:</label>
+                                    <input type="text" disabled value="{{ user.username }}" class="form-control">
+                                    <span class="form-bar"></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-primary">
+                                            <label class="col-form-label">First Name:</label>
+                                            <input type="text" name='first_name' class="form-control" value="{{ user.first_name }}">
+                                            <span class="form-bar"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-primary">
+                                            <label class="col-form-label">Last Name:</label>
+                                            <input type="text" name='last_name' value="{{ user.last_name }}" class="form-control">
+                                            <span class="form-bar"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-primary">
+                                    <label class="col-form-label">Email:</label>
+                                    <input type="email" name="email" class="form-control" value="{{ user.email }}">
+                                    <span class="form-bar"></span>
+                                </div>
+                                <div class="row m-t-30">
+                                    <div class="col-md-12">
+                                        <button type="submit"  class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">UPDATE</button>
+                                    </div>
+                                </div>
+                                <hr/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+       </div>
+    </section>
+{{ user.username }}
+{{ user.profile.profile_image }}
 
-            <td>
-                <a href="{% url 'edit_routine' routine.id %}">Edit</a>
-            </td>
-        </tr>
-    {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <h2 class="text-white">Details Not Updated!!</h2>
-{% endif %}
+    <form method="post">
+
+</form>
 {% endblock %}

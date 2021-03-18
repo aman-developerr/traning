@@ -1,26 +1,146 @@
-{% extends 'base.html' %}
-{% block title %}
-Login
-{% endblock %}
-{% block body %}
-   <div class="container">
-        <div class="row">
-            <div class="offset-md-4 col-md-4 offset-sm-3 col-sm-6">
-                <form method="post" class="text-white">
-                    {% csrf_token %}
-                    {{ forms.username.label }}
-                    {{ forms.username }}<br>
-                    {{ forms.password.label }}
-                    {{ forms.password }}<br>
-                    <center>
-                        <input type="submit" class="btn btn-outline-light" value="Login">
-                    </center>
-                </form>
-            </div>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+        {% include 'cdn.html' %}
+    </head>
+    <body>
+        <div class="theme-loader">
+              <div class="loader-track">
+                  <div class="preloader-wrapper">
+                      <div class="spinner-layer spinner-blue">
+                          <div class="circle-clipper left">
+                              <div class="circle"></div>
+                          </div>
+                          <div class="gap-patch">
+                              <div class="circle"></div>
+                          </div>
+                          <div class="circle-clipper right">
+                              <div class="circle"></div>
+                          </div>
+                      </div>
+                      <div class="spinner-layer spinner-red">
+                          <div class="circle-clipper left">
+                              <div class="circle"></div>
+                          </div>
+                          <div class="gap-patch">
+                              <div class="circle"></div>
+                          </div>
+                          <div class="circle-clipper right">
+                              <div class="circle"></div>
+                          </div>
+                      </div>
+
+                      <div class="spinner-layer spinner-yellow">
+                          <div class="circle-clipper left">
+                              <div class="circle"></div>
+                          </div>
+                          <div class="gap-patch">
+                              <div class="circle"></div>
+                          </div>
+                          <div class="circle-clipper right">
+                              <div class="circle"></div>
+                          </div>
+                      </div>
+
+                      <div class="spinner-layer spinner-green">
+                          <div class="circle-clipper left">
+                              <div class="circle"></div>
+                          </div>
+                          <div class="gap-patch">
+                              <div class="circle"></div>
+                          </div>
+                          <div class="circle-clipper right">
+                              <div class="circle"></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
         </div>
-   </div>
-    <script>
-        document.getElementById("id_username").className = "form-control";
-        document.getElementById("id_password").className = "form-control";
-    </script>
-{% endblock %}
+
+          <!-- Pre-loader end -->
+        <section class="P-block">
+                <!-- Container-fluid starts -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form class="md-float-material form-material" method="post">
+                                <div class="text-center">
+                                    <img src="{% get_static_prefix %}images/logo.png" alt="logo.png">
+                                </div>
+                                {% csrf_token %}
+                                <div class="auth-box card">
+                                    <div class="card-block">
+                                        <div class="row m-b-20">
+                                            <div class="col-md-12">
+                                                <h3 class="text-center txt-primary">Login</h3>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-primary">
+                                            {{ forms.username }}
+                                            <span class="form-bar"></span>
+                                            <label class="float-label">Username</label>
+                                        </div>
+                                            <div class="form-group form-primary">
+                                                {{ forms.password }}
+                                                <span class="form-bar"></span>
+                                                <label class="float-label">Password</label>
+                                            </div>
+                                        </div>
+                                        <div class="row m-t-15 ml-2 mr-2">
+                                            <div class="col-md-12">
+                                                <button type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Login</button>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- end of col-sm-12 -->
+                    </div>
+                    <!-- end of row -->
+                </div>
+                <!-- end of container-fluid -->
+        </section>
+        <script type="text/javascript" src="{% get_static_prefix %}js/jquery/jquery.min.js "></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/jquery-ui/jquery-ui.min.js "></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/popper.js/popper.min.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/bootstrap/js/bootstrap.min.js "></script>
+        <!-- waves js -->
+        <script src="{% get_static_prefix %}pages/waves/js/waves.min.js"></script>
+        <!-- jquery slimscroll js -->
+        <script type="text/javascript" src="{% get_static_prefix %}js/jquery-slimscroll/jquery.slimscroll.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/common-pages.js"></script>
+
+        <script>
+            document.getElementById("id_username").className = "form-control";
+            document.getElementById("id_password").className = "form-control";
+        </script>
+    </body>
+
+</html>
+
+
+
+{#   <div class="container">#}
+{#        <div class="row">#}
+{#            <div class="offset-md-4 col-md-4 offset-sm-3 col-sm-6">#}
+{#                <form method="post" class="text-white">#}
+{#                    {% csrf_token %}#}
+{#                    {{ forms.username.label }}#}
+{#                    {{ forms.username }}<br>#}
+{#                    {{ forms.password.label }}#}
+{#                    {{ forms.password }}<br>#}
+{#                    <center>#}
+{#                        <input type="submit" class="btn btn-outline-light" value="Login">#}
+{#                    </center>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#   </div>#}
+
+
+

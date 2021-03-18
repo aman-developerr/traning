@@ -3,43 +3,86 @@
 {% block title %}
 Trainee Details
 {% endblock %}
+{% block page_name %}
+{{ trainee }}
+{% endblock %}
 {% block body %}
     {% if routines %}
-        <table class="table text-white text-center table-hover">
-            <thead>
-            <tr>
-                <td>Date</td>
-                <td>check in time</td>
-                <td>check out time</td>
-                <td>Current project</td>
-                <td>Billiable Task</td>
-                <td>Break Timing</td>
-                <td>Task Owner</td>
-                <td>Approved By</td>
-            </tr>
-            </thead>
-            <tbody>
-
-
-        {% for routine in routines %}
-            <tr>
-                <td>{{ routine.today_date }}</td>
-                <td>{{ routine.check_in_times }}</td>
-                <td>{{ routine.check_out_time }}</td>
-                <td>{{ routine.current_project }}</td>
-                <td>{{ routine.billable_task }}</td>
-                <td>{{ routine.break_time }}</td>
-                <td>{{ routine.task_owner }}</td>
-                <td>{{ routine.approved_by }}</td>
-            </tr>
-        {% endfor %}
-            </tbody>
-        </table>
+        <style>
+            p{
+                font-family: sans-serif;
+                font-size: 16px;
+            }
+        </style>
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- Page-body start -->
+                <div class="page-body">
+                    <div class="row">
+                        {% for routine in routines %}
+                            <div class="col-xl-4 col-lg-6  col-md-12 col-sm-12">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <h5 class="text-center m-b-0">{{ routine.today_date }}</h5>
+                                        <p class="m-t-15 m-b-15">Current Project: {{ routine.current_project}}</p>
+                                        <p class="m-t-15 m-b-15">Check-In: {{ routine.check_in_times}}</p>
+                                        <p class="m-t-15 m-b-15">Check-Out: {{ routine.check_out_time }}</p>
+                                        <p class="m-t-15 m-b-15">Billable-Task: {{ routine.billable_task }}</p>
+                                        <p class="m-t-15 m-b-15">Break: {{ routine.break_time }}</p>
+                                        <p class="m-t-15 m-b-15">Task-Owner: {{ routine.task_owner }}</p>
+                                        {% if routine.approved_by == 'Pending' %}
+                                                <p class="text-c-red text-center ">Approved-By: {{ routine.approved_by }}</p>
+                                                {% else %}
+                                                <p class=" text-center text-c-green">Approved-By: {{ routine.approved_by }}</p>
+                                            {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div id="styleSelector"> </div>
+        </div>
     {% else %}
-        No Details Available
+        <h2 class="">Details Not Updated!!</h2>
     {% endif %}
+
 {% endblock %}
 
 
-
+{#{% if routines %}#}
+{#        <table class="table text-white text-center table-hover">#}
+{#            <thead>#}
+{#            <tr>#}
+{#                <td>Date</td>#}
+{#                <td>check in time</td>#}
+{#                <td>check out time</td>#}
+{#                <td>Current project</td>#}
+{#                <td>Billiable Task</td>#}
+{#                <td>Break Timing</td>#}
+{#                <td>Task Owner</td>#}
+{#                <td>Approved By</td>#}
+{#            </tr>#}
+{#            </thead>#}
+{#            <tbody>#}
+{##}
+{##}
+{#        {% for routine in routines %}#}
+{#            <tr>#}
+{#                <td>{{ routine.today_date }}</td>#}
+{#                <td>{{ routine.check_in_times }}</td>#}
+{#                <td>{{ routine.check_out_time }}</td>#}
+{#                <td>{{ routine.current_project }}</td>#}
+{#                <td>{{ routine.billable_task }}</td>#}
+{#                <td>{{ routine.break_time }}</td>#}
+{#                <td>{{ routine.task_owner }}</td>#}
+{#                <td>{{ routine.approved_by }}</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#            </tbody>#}
+{#        </table>#}
+{#    {% else %}#}
+{#        No Details Available#}
+{#    {% endif %}#}
 

@@ -3,9 +3,76 @@
 {% block title %}
 Notifications
 {% endblock %}
+
+{% block page_name %}
+Notifications
+{% endblock %}
+
 {% block body %}
+<style>
+p{
+    font-family: sans-serif;
+    font-size: 16px;
+}
+</style>
+
+
 {% if 'trainers'|has_group:request.user.id %}
     {% if routines %}
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- Page-body start -->
+                <div class="page-body">
+                    <div class="row">
+                        {% for routine in routines %}
+                            <div class="col-xl-4 col-lg-6  col-md-12 col-sm-12">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <h5 class="text-center m-b-0">{{ routine.user_id.username }}  <br>{{ routine.today_date }}</h5>
+                                            <p class="m-t-15 m-b-15">Current Project: {{ routine.current_project}}</p>
+                                            <p class="m-t-15 m-b-15">Check-In: {{ routine.check_in_times}}</p>
+                                            <p class="m-t-15 m-b-15">Check-Out: {{ routine.check_out_time }}</p>
+                                            <p class="m-t-15 m-b-15">Billable-Task: {{ routine.billable_task }}</p>
+                                            <p class="m-t-15 m-b-15">Break: {{ routine.break_time }}</p>
+                                            <p class="m-t-15 m-b-15">Task-Owner: {{ routine.task_owner }}</p>
+                                            {% if routine.approved_by == 'Pending' %}
+                                                <p class="text-c-red text-center ">Approved-By: {{ routine.approved_by }}</p>
+                                                {% else %}
+                                                <p class=" text-center text-c-green">Approved-By: {{ routine.approved_by }}</p>
+                                            {% endif %}
+                                            <center>
+                                            {% if routine.approved_by == 'Pending'%}
+                                                <form method="post" class="form-inline" action="{% url 'notifications' routine.id %}">
+                                                    {% csrf_token %}
+                                                    <select name="approval" class="form-control">
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="approved">Approved</option>
+                                                    </select>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <input type="submit" class="btn btn-outline-danger" value="Confirm">
+                                                </form>
+                                            {% else %}
+                                                <p class="text-center text-c-green">Approved</p>
+                                            {% endif %}
+                                            </center>
+                                        </div>
+                                    </div>
+
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div id="styleSelector"> </div>
+        </div>
+    {% else %}
+        <h2 class="text-white">Details Not Updated!!</h2>
+    {% endif %}
+
+
+
+
+    {% if routiness %}
         <table class="table text-white text-center" id="table1">
             <thead>
             <tr>
@@ -66,33 +133,3 @@ Notifications
     });
   </script>
 {% endblock %}
-
-
-
-white_tick
-eyes
-raised_hands
-
-
-
-
-
-15:03
-<table class="table table-bordered table-responsive text-center bg-light" id="table1">
-        <thead>
-          <tr>
-            <th>Sr.No.</th>
-            <th>Technology</th>
-            <th>Task Detail</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for i in user_task %}
-          <tr>
-            <td>{{forloop.counter}}</td>
-            <td>{{i.technology}}</td>
-            <td>{{i.task}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>

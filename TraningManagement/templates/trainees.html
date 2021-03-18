@@ -4,29 +4,61 @@ Trainee
 {% endblock %}
 {% block body %}
     {% if trainees %}
-        <table class="table text-white table-hover">
-            <thead>
-                <tr>
-                    <td>Username</td>
-                    <td>First Name</td>
-                    <td>Last Name</td>
-                    <td>Email</td>
-                    <td>Details</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for trainee in trainees %}
-                    <tr>
-                        <td>{{ trainee.username }}</td>
-                        <td>{{ trainee.first_name }}</td>
-                        <td>{{ trainee.last_name }}</td>
-                        <td>{{ trainee.email }}</td>
-                        <td><a href="{% url 'trainee_details' trainee.id %}">Details</a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- Page-body start -->
+                <div class="page-body">
+                    <div class="row">
+                        {% for trainee in trainees %}
+                            <div class="col-xl-4 col-lg-6  col-md-12 col-sm-12">
+                                <a href="{% url 'trainee_details' trainee.id %}">
+                                    <div class="card  order-visitor-card">
+                                        <div class="card-block">
+                                            <h5 class="text-center m-b-0">Image</h5>
+                                            <h6 class="m-t-15 m-b-15">First Name: {{ trainee.first_name }}</h6>
+                                            <h6 class="m-t-15 m-b-15">Last Name: {{ trainee.last_name }}</h6>
+                                            <h6 class="m-t-15 m-b-15">Username: {{ trainee.username }}</h6>
+                                            <h6 class="m-t-15 m-b-15">Email: {{ trainee.email }}</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div id="styleSelector"> </div>
+        </div>
     {% else %}
-        <h2 class="text-white"> No Trainees</h2>
+        <h2 class="text-white">No Trainee found</h2>
     {% endif %}
+
+
 {% endblock %}
+{##}
+{#{% if trainees %}#}
+{#    <table class="table text-white table-hover">#}
+{#        <thead>#}
+{#        <tr>#}
+{#            <td>Username</td>#}
+{#            <td>First Name</td>#}
+{#            <td>Last Name</td>#}
+{#            <td>Email</td>#}
+{#            <td>Details</td>#}
+{#        </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#        {% for trainee in trainees %}#}
+{#            <tr>#}
+{#                <td>{{ trainee.username }}</td>#}
+{#                <td>{{ trainee.first_name }}</td>#}
+{#                <td>{{ trainee.last_name }}</td>#}
+{#                <td>{{ trainee.email }}</td>#}
+{#                <td><a href="{% url 'trainee_details' trainee.id %}">Details</a></td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+{#{% else %}#}
+{#    <h2 class="text-white"> No Trainees</h2>#}
+{#{% endif %}#}

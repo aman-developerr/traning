@@ -2,65 +2,121 @@
 {% block title %}
 Today
 {% endblock %}
-{% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="offset-md-4 col-md-4 offset-sm-3 col-sm-6">
-                <form method="post">
-                    {% csrf_token %}
-                    {% if check == 0 %}
-                        <h4 class="text-white">Today's Check-In</h4><br>
-                        <input type="text" class="form-control" disabled value="{{ todays_date }}">
-                        <input type="hidden" id="longitude" name="longitude">
-                        <input type="hidden" id="latitude" name="latitude"><br>
-                        <p class="btn btn-outline-success" id="loc" onclick="getLocation()">Get location</p>
-                        <input type="submit" id="checkbtn" class="btn btn-outline-primary" style="display: none" value="Check-In">
-                    {% elif check == 1 %}
-                        <h4 class="text-white">Today's Check-Out</h4><br>
-                        <input type="text" disabled class="form-control" value="{{ todays_date }}">
-                        <input type="hidden" id="longitude" name="longitude">
-                        <input type="hidden" id="latitude" name="latitude"><br>
-                        <p class="btn btn-outline-success" id="loc" onclick="getLocation()">Get location</p>
-                        <input type="submit" class="btn btn-outline-primary" id="checkbtn" style="display: none" value="check-out">
-                    {% else %}
-                        <h3 class="text-white">Your check in check out done</h3>
-                    {% endif %}
-                </form>
-            </div>
-        </div>
-    </div>
-
-<script>
-var longitude = document.getElementById("longitude");
-var latitude = document.getElementById("latitude");
-
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else {
-    longitude = 0;
-    latitude = 0;
-  }
-}
-
-function showPosition(position) {
-    latitude.value = position.coords.latitude;
-    longitude.value = position.coords.longitude;
-    myFunction();
- }
- function myFunction() {
-  var loc = document.getElementById("loc");
-  var chec = document.getElementById("checkbtn");
-  ifelsedisply(loc);
-  ifelsedisply(chec);
-  function ifelsedisply(x){
-        if (x.style.display === "none") {
-            x.style.display = "block";
-          } else {
-            x.style.display = "none";
-          }
-  }
-
-}
-</script>
+{% block page_name %}
+Today
 {% endblock %}
+{% block body %}
+    <section class="login-block">
+       <div class="container">
+           <div class="row">
+               <div class="col-sm-12">
+                   <form class="md-float-material form-material" method="post" id="myForm">
+                       {% csrf_token %}
+                       <div class="auth-box card">
+                           <div class="card-block">
+                               {% if check == 0 %}
+                                    <div class="row m-b-20">
+                                        <div class="col-md-12">
+                                            <h3 class="text-center txt-primary">Today's Check-In</h3>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-primary">
+                                        <label class="col-form-label">Date</label>
+                                        <input type="text" class="form-control" disabled value="{{ todays_date }}">
+                                        <span class="form-bar"></span>
+                                    </div>
+                                    <input type="hidden" id="longitude" name="longitude">
+                                    <input type="hidden" id="latitude" name="latitude">
+                                    <div class="row m-t-30">
+                                        <div class="col-md-12">
+                                            <button type="button" onclick="SubmitFunction(); getLocation();" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Check-In</button>
+                                        </div>
+                                    </div>
+                                    {% elif check == 1 %}
+                                        <div class="row m-b-20">
+                                            <div class="col-md-12">
+                                                <h3 class="text-center txt-primary">Today's Checkout</h3>
+                                            </div>
+                                        </div>
+                                        <div class="form-group form-primary">
+                                            <label class="col-form-label">Date</label>
+                                            <input type="text" class="form-control" disabled value="{{ todays_date }}">
+                                            <span class="form-bar"></span>
+                                        </div>
+                                        <input type="hidden" id="longitude" name="longitude">
+                                        <input type="hidden" id="latitude" name="latitude">
+                                        <div class="row m-t-30">
+                                            <div class="col-md-12">
+                                                <button type="button" onclick="SubmitFunction(); getLocation();"  class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Check-Out</button>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="row m-b-20">
+                                            <div class="col-md-12">
+
+                                                <span class="text-center  pcoded-mtext">Your Check-In Check-Out Done</span>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <hr/>
+                               </div>
+                           </div>
+                       </form>
+                   </div>
+              </div>
+           </div>
+    </section>
+
+
+    <script>
+        var longitude = document.getElementById("longitude");
+        var latitude = document.getElementById("latitude");
+        function SubmitFunction(){
+            getLocation();
+            alert('confirm');
+            setTimeout(f,3000);
+            function f()
+            {
+                document.getElementById("myForm").submit();
+            }
+        }
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          } else {
+            longitude = 0;
+            latitude = 0;
+          }
+        }
+        function showPosition(position) {
+            latitude.value = position.coords.latitude;
+            longitude.value = position.coords.longitude;
+         }
+    </script>
+{% endblock %}
+
+
+
+{#    <div class="container">#}
+{#        <div class="row">#}
+{#            <div class="offset-md-4 col-md-4 offset-sm-3 col-sm-6">#}
+{#                #}
+{#                    #}
+{##}
+{#                        <h4 class="">Today's Check-In</h4><br>#}
+{##}
+{#                        <input type="hidden" id="longitude" name="longitude">#}
+{#                        <input type="hidden" id="latitude" name="latitude"><br>#}
+{#                        <input type="button" onclick="SubmitFunction(); getLocation();"  value="Check-In">#}
+{##}
+{#                        <h4 class="">Today's Check-Out</h4><br>#}
+{#                        <input type="text" disabled class="form-control" value="{{ todays_date }}">#}
+{#                        <input type="hidden" id="longitude" name="longitude">#}
+{#                        <input type="hidden" id="latitude" name="latitude"><br>#}
+{##}
+{#                        <input type="button" class="btn btn-outline-primary" onclick="SubmitFunction(); getLocation();" value="check-out">#}
+{##}
+{#                        <h3 class="">Your check in check out done</h3>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}

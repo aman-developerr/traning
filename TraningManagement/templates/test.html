@@ -1,24 +1,48 @@
-{#{{ date }}#}
-{% load template_auth %}
-{{ a }}
-{% if 'trainers'|has_group:request.user.id %}
-    <p>User belongs to my group</p>
-{% else %}
-    <h2>no belongs to group </h2>
-{% endif %}
+{% extends 'base.html' %}
+{% block title %}
+Today
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-4 col-md-4 offset-sm-3 col-sm-6">
+                <form method="post" id="myForm">
+                    {% csrf_token %}
 
+                        <h4 class="text-white">Today's Check-In</h4><br>
+                        <input type="text" class="form-control" disabled value="{{ todays_date }}">
+                        <input type="text" id="longitude" name="longitude">
+                        <input type="text" id="latitude" name="latitude"><br>
+                        <input type="button" onclick="SubmitFunction(); getLocation();" class="btn btn-outline-primary"  value="Check-In">
 
+                </form>
+            </div>
+        </div>
+    </div>
 
-{{ todays_date }}
-<br>
-<br>
-<br>
-<br>
+<script>
+var longitude = document.getElementById("longitude");
+var latitude = document.getElementById("latitude");
+function SubmitFunction(){
+    getLocation();
+    alert('confirm');
+    setTimeout(f,5000);
+    function f() {
 
-
-<br>
-<br>
-<br>
-{{ request.user }}
-{{ request.user.id }}
-
+        document.getElementById("myForm");
+    }
+}
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    longitude = 0;
+    latitude = 0;
+  }
+}
+function showPosition(position) {
+    latitude.value = position.coords.latitude;
+    longitude.value = position.coords.longitude;
+ }
+</script>
+{% endblock %}
