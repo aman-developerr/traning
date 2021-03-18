@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load template_auth %}
+{% load static   %}
+{% block page_name %}
+Profile
+{% endblock %}
+
+{% block page %}
+Feedback
+{% endblock %}
+
+{% block title %}
+Feedback
+{% endblock %}
+
+{% block body %}
+
+    <h1>
+    ask for feedack
+    </h1>
+<p>ask feedback with</p>
+    <form method="post">
+    {% csrf_token %}
+    trainer
+
+        <select name="trainer_name" class="form-control">
+        {% for trainer in trainers %}
+            <option value="{{ trainer.username }}">{{ trainer.username }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" class="btn btn-danger">
+    </form>
+    <hr>
+
+<h1> requested</h1>
+
+{% for feedbackreq in feedback_requested %}
+{{ feedbackreq.trainer }}<br>
+{{ feedbackreq.user }}<br>
+{{ feedbackreq.request_time }}<br>
+        <hr>
+
+{% endfor %}
+    <hr>
+
+    <h2>feedbacks</h2>
+
+{% for feedback in feedbacks %}
+{{ feedback.trainer }}<br>
+{{ feedback.feedback_time }}<br>
+{{ feedback.feedback }}<br>
+        <hr>
+
+{% endfor %}
+    <hr>
+
+
+{% if 'trainers'|has_group:request.user.id %}
+
+    <h2>got requests</h2>
+{% for feedbackreq in feedback_requests %}
+{{ feedbackreq.trainer }}<br>
+requested user - {{ feedbackreq.user }}
+    <form method="post" action="{% url 'feedback_add' %}" >
+    {% csrf_token %}
+    <input type="text" name="feedback">
+    <input type="text" name="trainee_id" value=" {{ feedbackreq.user.id }}">
+     <input type="submit" class="btn btn-danger">
+
+    </form>
+    <br>
+{{ feedbackreq.request_time }}<br>
+    <hr>
+{% endfor %}
+
+{% endif %}
+
+{% endblock %}
+

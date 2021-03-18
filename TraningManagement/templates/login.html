@@ -7,65 +7,13 @@
         {% include 'cdn.html' %}
     </head>
     <body>
-        <div class="theme-loader">
-              <div class="loader-track">
-                  <div class="preloader-wrapper">
-                      <div class="spinner-layer spinner-blue">
-                          <div class="circle-clipper left">
-                              <div class="circle"></div>
-                          </div>
-                          <div class="gap-patch">
-                              <div class="circle"></div>
-                          </div>
-                          <div class="circle-clipper right">
-                              <div class="circle"></div>
-                          </div>
-                      </div>
-                      <div class="spinner-layer spinner-red">
-                          <div class="circle-clipper left">
-                              <div class="circle"></div>
-                          </div>
-                          <div class="gap-patch">
-                              <div class="circle"></div>
-                          </div>
-                          <div class="circle-clipper right">
-                              <div class="circle"></div>
-                          </div>
-                      </div>
-
-                      <div class="spinner-layer spinner-yellow">
-                          <div class="circle-clipper left">
-                              <div class="circle"></div>
-                          </div>
-                          <div class="gap-patch">
-                              <div class="circle"></div>
-                          </div>
-                          <div class="circle-clipper right">
-                              <div class="circle"></div>
-                          </div>
-                      </div>
-
-                      <div class="spinner-layer spinner-green">
-                          <div class="circle-clipper left">
-                              <div class="circle"></div>
-                          </div>
-                          <div class="gap-patch">
-                              <div class="circle"></div>
-                          </div>
-                          <div class="circle-clipper right">
-                              <div class="circle"></div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-        </div>
 
           <!-- Pre-loader end -->
         <section class="P-block">
                 <!-- Container-fluid starts -->
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 offset-md-4 col-md-4">
                             <form class="md-float-material form-material" method="post">
                                 <div class="text-center">
                                     <img src="{% get_static_prefix %}images/logo.png" alt="logo.png">
@@ -78,15 +26,21 @@
                                                 <h3 class="text-center txt-primary">Login</h3>
                                             </div>
                                         </div>
+                                        {% if forms.non_field_errors %}
+                                            {% for form in forms.non_field_errors %}
+                                                <p class="sub-title">{{ form }}</p>
+                                            {% endfor %}
+                                        {% endif %}
+
                                         <div class="form-group form-primary">
+                                            <label class="col-form-label">Username</label>
                                             {{ forms.username }}
                                             <span class="form-bar"></span>
-                                            <label class="float-label">Username</label>
                                         </div>
-                                            <div class="form-group form-primary">
-                                                {{ forms.password }}
+                                        <div class="form-group form-primary">
+                                            <label class="col-form-label">Password</label>
+                                            {{ forms.password }}
                                                 <span class="form-bar"></span>
-                                                <label class="float-label">Password</label>
                                             </div>
                                         </div>
                                         <div class="row m-t-15 ml-2 mr-2">
@@ -120,6 +74,9 @@
             document.getElementById("id_password").className = "form-control";
         </script>
     </body>
+
+
+
 
 </html>
 

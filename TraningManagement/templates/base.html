@@ -7,7 +7,7 @@
     <title>{% block title %}{% endblock %}</title>
     {% include 'cdn.html' %}
 </head>
-<body>
+<body >
 
 
 
@@ -34,7 +34,12 @@
 
 
 
-
+    <style>
+    p{
+        font-family: sans-serif;
+        font-size: 16px;
+    }
+    </style>
 
 
 <div class="theme-loader">
@@ -127,7 +132,7 @@
                             </li>
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light">
-                                    <img src="{% get_static_prefix %}images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
+                                    <img src="{{ user.profile.profile_image.url }}" class="img-radius" alt="User-Profile-Image">
                                     <span>{{ request.user }}</span>
                                     <i class="ti-angle-down"></i>
                                 </a>
@@ -150,7 +155,7 @@
                         <div class="pcoded-inner-navbar main-menu">
                             <div class="">
                                 <div class="main-menu-header">
-                                    <img class="img-80 img-radius" src="{% get_static_prefix %}images/avatar-4.jpg" alt="User-Profile-Image">
+                                    <img class="img-80 img-radius" src="{{ user.profile.profile_image.url }}" alt="User-Profile-Image">
                                     <div class="user-details">
                                         <span id="more-details">{{ request.user }}<i class="fa fa-caret-down"></i></span>
                                     </div>
@@ -211,10 +216,14 @@
                                             <h5 class="m-b-10">{% block page_name %}
                                             {% endblock %}</h5>
                                             <p class="m-b-0">Welcome to Cubexo Daily Routine Update</p>
+
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <ul class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <p class="m-b-0 mr-4 " id="timer">Welcome to Cubexo Daily Routine Update</p>
+                                            </li>
                                             <li class="breadcrumb-item">
                                                 <a href="/"> <i class="fa fa-home"></i> </a>
                                             </li>
@@ -257,9 +266,27 @@
     <script src="{% get_static_prefix %}js/vertical/vertical-layout.min.js "></script>
 
     <script type="text/javascript" src="{% get_static_prefix %}js/script.js "></script>
+    <script type="text/javascript" src="{% get_static_prefix %}js/bootstrap-growl.min.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}pages/notification/notification.js"></script>
+    <script src="{% get_static_prefix %}js/pcoded.min.js"></script>
+    <script src="{% get_static_prefix %}js/vertical/vertical-layout.min.js"></script>
+    <script src="{% get_static_prefix %}js/jquery.mCustomScrollbar.concat.min.js"></script>
           <script>
         document.querySelector('.fixed-button').innerHTML="";
+    </script>
+          <script>
+    var myVar = setInterval(myTimer ,1000);
+    function myTimer() {
+      var d = new Date();
+      document.getElementById("timer").innerHTML = d.toLocaleTimeString();
+    }
     </script>
 </div>
 </body>
 </html>
+
+{% if messages %}
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+{% endif %}

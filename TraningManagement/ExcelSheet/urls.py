@@ -1,9 +1,10 @@
 from django.urls import path
 from . import views
+from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls import url
 from django.views.static import serve
-from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('', views.user_login, name='login'),
@@ -16,6 +17,8 @@ urlpatterns = [
     path('trainee_details/<int:pk>/', views.trainee_details, name='trainee_details'),
     path('profile/<int:pk>/', views.profile, name='profile'),
     path('notifications/<int:pk>/', views.notifications, name='notifications'),
+    path('feedback/', views.feedback, name='feedback'),
+    path('feedbackadd_add/', views.feedback_add, name='feedback_add'),
     url(r'^download/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT})
 ]
 

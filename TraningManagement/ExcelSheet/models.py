@@ -20,10 +20,18 @@ class Routine(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_image = models.ImageField(upload_to='media',max_length=255, blank=True)
+    profile_image = models.ImageField(upload_to='media/', max_length=255, blank=True)
+
+
+class FeedbackRequest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    trainer = models.CharField(max_length=30 ,null=True)
+    feedback_request = models.BooleanField(default=False)
+    request_time = models.DateTimeField(max_length=30)
 
 
 class Feedback(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    feedback_time = models.DateTimeField(max_length=20)
+    trainer = models.CharField(max_length=30, null=True)
     feedback = models.TextField(max_length=100, null=True)
+    feedback_time = models.DateTimeField(max_length=20)

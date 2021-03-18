@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, logout, login
-from .models import Routine, Feedback, Profile
+from .models import Routine, Feedback, Profile, FeedbackRequest
 from django.contrib.auth.models import User
 import datetime as dt
 import socket
@@ -38,7 +38,7 @@ def user_login(request):
                     login(request, user)
                     messages.success(request, 'login successful!!!')
                     return HttpResponseRedirect('/today/')
-            return HttpResponse('form is invalid')
+            return render(request, 'login.html', {'forms': forms, 'messages': messages})
         else:
             forms = AuthenticationForm()
         return render(request, 'login.html', {'forms': forms, 'messages': messages})
@@ -193,7 +193,10 @@ def profile(request, pk):
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         email = request.POST['email']
-        s
+        try:
+            img = request.FILES['image']
+        except:
+            img=False
         user = User.objects.get(pk=pk)
         if first_name:
             user.first_name=first_name
@@ -201,7 +204,19 @@ def profile(request, pk):
             user.last_name=last_name
         if email:
             user.email=email
-
+        if img:
+            try:
+                profile = Profile.objects.get(user = request.user.id)
+                if img:
+                    profile.profile_image = img
+                    profile.save()
+            except:
+                if img:
+                    data = Profile(
+                        user=user,
+                        profile_image=img,
+                    )
+                    data.save()
         user.save()
         return HttpResponseRedirect('/')
     else:
@@ -210,20 +225,68 @@ def profile(request, pk):
         return render(request, 'profile.html', context)
 
 
-def test(request):
-    b = 12
-    # a = Routine.objects.filter(user=request.user.id)._values('pk')
-    # print(a)
-    abc = 'none'
+@login_required(login_url=login_url)
+def feedback(request):
+    if request.method == 'POST':
 
-    if b == b:
-        abc = 'abc'
-        return render(request, 'test.html', {'a': abc})
+        trainer = request.POST['trainer_name']
+        date_time = dt.datetime.now()
+        feedback_request = FeedbackRequest.objects.filter(trainer__contains=trainer,user__exact=request.user)
+        if feedback_request:
+            messages.info(request,'Already requested')
+            return HttpResponseRedirect('/feedback/')
+        data = FeedbackRequest(
+            user=request.user,
+            feedback_request=True,
+            trainer=trainer,
+            request_time=date_time
+        )
+        data.save()
+        return HttpResponseRedirect('/feedback/')
 
     else:
-        abc = 'efg'
+        feedbacks = Feedback.objects.filter(user=request.user.id)
+        feedback_requested = FeedbackRequest.objects.filter(user=request.user.id)
+        feedback_requests = FeedbackRequest.objects.filter(trainer__contains=request.user)
+        trainers = User.objects.filter(groups__name='trainers')
+        context = {'trainers': trainers,'feedbacks':feedbacks,'feedback_requested':feedback_requested,'feedback_requests':feedback_requests}
+        return render(request,'feedback.html',context)
 
-    return render(request, 'test.html', {'a': abc})
+
+def feedback_add(request):
+    date_time = dt.datetime.now()
+    if request.method == "POST":
+        feedback = request.POST['feedback']
+        trainee_id = request.POST.get('trainee_id')
+        data = Feedback(
+            trainer=request.user,
+            user=User.objects.get(pk=trainee_id),
+            feedback_time= date_time,
+            feedback=feedback
+        )
+        data.save()
+        return HttpResponseRedirect('/feedback/')
+
+
+
+
+def test(request):
+    profile = Profile.objects.get(user=request.user.id)
+    print(profile)
+
+    # b = 12
+    # # a = Routine.objects.filter(user=request.user.id)._values('pk')
+    # # print(a)
+    # abc = 'none'
+    #
+    # if b == b:
+    #     abc = 'abc'
+    #     return render(request, 'test.html', {'a': abc})
+    #
+    # else:
+    #     abc = 'efg'
+    #
+    # return render(request, 'test.html', {'a': abc})
 
     # if request.user.groups.filter(name='trainers').exists():
     #     context = {'todays_date': request.user}
@@ -233,6 +296,8 @@ def test(request):
     #     return render(request, 'test.html', context=context)
     # todays_date = User.objects.filter(groups__name='trainers')
     # # date = dt.datetime.today().date()
+    # #     date = 'true'
     # # print(todays_date, date)
     # # if todays_date.today_date == date:
-    # #     date = 'true'
+
+

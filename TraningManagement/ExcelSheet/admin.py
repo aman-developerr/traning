@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Routine,Feedback,Profile
+from .models import Routine,Feedback,Profile,FeedbackRequest
 
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user','profile_image',]
+    list_display = ['user','profile_image']
 
 @admin.register(Routine)
 class RoutineAdmin(admin.ModelAdmin):
@@ -12,4 +12,8 @@ class RoutineAdmin(admin.ModelAdmin):
 
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'feedback_time', 'feedback']
+    list_display = ['id', 'user', 'feedback_time', 'feedback','trainer']
+
+@admin.register(FeedbackRequest)
+class FeedbackRequestAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'request_time', 'feedback_request','trainer']
