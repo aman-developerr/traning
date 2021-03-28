@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, HttpResponseRedirect, HttpResponse, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, logout, login
@@ -76,7 +76,7 @@ def today(request):
             longitude = request.POST.get('longitude')
             latitude = request.POST.get('latitude')
         except:
-            messages.error(request,'Turn on your location and Try again')
+            messages.error(request, 'Turn on your location and Try again')
             return HttpResponseRedirect('/today/')
         # in_ip = hostname + '  ' + IPAddr
         in_ip = f"{hostname}  {IPAddr}"
@@ -194,46 +194,69 @@ def profile(request, pk):
         last_name = request.POST['last_name']
         email = request.POST['email']
         try:
-            img = request.FILES['image']
+            img = request.FILES['file']
+            x = float(request.POST['x'])
+            y = float(request.POST['y'])
+            w = float(request.POST['width'])
+            h = float(request.POST['height'])
+
+            image = Image.open(img)
+
+            cropped_image = image.crop((x, y, w + x, h + y))
+
+            resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+
+            pic_io = BytesIO()
+
+            resized_image.save(pic_io, image.format)
+
+            pic_file = InMemoryUploadedFile(
+                file=pic_io, field_name=None, name=img.name, content_type=img.content_type, size=img.size, charset=None
+            )
+
         except:
-            img=False
+            pic_file = False
         user = User.objects.get(pk=pk)
         if first_name:
-            user.first_name=first_name
+            user.first_name = first_name
         if last_name:
-            user.last_name=last_name
+            user.last_name = last_name
         if email:
-            user.email=email
-        if img:
+            user.email = email
+        print('a')
+        if pic_file:
+            print('a')
             try:
-                profile = Profile.objects.get(user = request.user.id)
-                if img:
-                    profile.profile_image = img
+                profile = Profile.objects.get(user=request.user.id)
+                if pic_file:
+                    profile.file = pic_file
                     profile.save()
+                    print('a')
             except:
-                if img:
+                if pic_file:
                     data = Profile(
                         user=user,
-                        profile_image=img,
+                        file=pic_file,
                     )
                     data.save()
         user.save()
-        return HttpResponseRedirect('/')
-    else:
-        user = User.objects.get(pk=pk)
-        context = {'user': user}
-        return render(request, 'profile.html', context)
+        messages.success(request,'Update Success full')
+
+
+    user = User.objects.get(pk=pk)
+    context = {'user': user}
+    return render(request, 'profile.html', context)
 
 
 @login_required(login_url=login_url)
 def feedback(request):
     if request.method == 'POST':
-
         trainer = request.POST['trainer_name']
         date_time = dt.datetime.now()
-        feedback_request = FeedbackRequest.objects.filter(trainer__contains=trainer,user__exact=request.user)
+        feedback_request = FeedbackRequest.objects.filter(trainer__exact=trainer, user__exact=request.user)
+        print('bbb')
         if feedback_request:
-            messages.info(request,'Already requested')
+            messages.info(request, 'Already requested')
             return HttpResponseRedirect('/feedback/')
         data = FeedbackRequest(
             user=request.user,
@@ -249,30 +272,108 @@ def feedback(request):
         feedback_requested = FeedbackRequest.objects.filter(user=request.user.id)
         feedback_requests = FeedbackRequest.objects.filter(trainer__contains=request.user)
         trainers = User.objects.filter(groups__name='trainers')
-        context = {'trainers': trainers,'feedbacks':feedbacks,'feedback_requested':feedback_requested,'feedback_requests':feedback_requests}
-        return render(request,'feedback.html',context)
+        context = {'trainers': trainers, 'feedbacks': feedbacks, 'feedback_requested': feedback_requested,
+                   'feedback_requests': feedback_requests}
+        return render(request, 'feedback.html', context)
 
 
 def feedback_add(request):
     date_time = dt.datetime.now()
     if request.method == "POST":
         feedback = request.POST['feedback']
+        feedback_id = request.POST['feedback_id']
+
         trainee_id = request.POST.get('trainee_id')
         data = Feedback(
             trainer=request.user,
             user=User.objects.get(pk=trainee_id),
-            feedback_time= date_time,
+            feedback_time=date_time,
             feedback=feedback
         )
         data.save()
+        data = FeedbackRequest.objects.get(pk=feedback_id)
+        data.delete()
         return HttpResponseRedirect('/feedback/')
 
 
-
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from PIL import Image
+from io import BytesIO
 
 def test(request):
-    profile = Profile.objects.get(user=request.user.id)
-    print(profile)
+    global w, y, x, h
+    print(type(request.user))
+    print(type(request.user.id))
+    print(type(request.user.pk))
+
+    pk = request.user.pk
+    if request.method == "POST":
+        print('inside post')
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        try:
+            x = float(request.POST['x'])
+            y = float(request.POST['y'])
+            w = float(request.POST['width'])
+            h = float(request.POST['height'])
+            print(x)
+        except:
+            img = False
+
+        print('insidety')
+        img = request.FILES['file']
+
+        print(type(img))
+        image = Image.open(img)
+        print(type(image))
+        cropped_image = image.crop((x, y, w + x, h + y))
+        print("image = Image.open(img.file)")
+        resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+
+        pic_io = BytesIO()
+        resized_image.save(pic_io, image.format)
+        pic_file = InMemoryUploadedFile(
+            file=pic_io, field_name=None, name=img.name, content_type=img.content_type, size=img.size, charset=None
+        )
+
+        profile = Profile.objects.get(user=request.user.id)
+        print(profile)
+        # data = Profile(file=img, user=request.user)
+        print('ab')
+        profile.file = pic_file
+        print('an')
+        profile.save()
+        return HttpResponseRedirect('/t/')
+        # except:
+        #     print('inside except')
+        #     img = False
+        # user = User.objects.get(pk=pk)
+        if first_name:
+            user.first_name = first_name
+        if last_name:
+            user.last_name = last_name
+        if email:
+            user.email = email
+        if img:
+            try:
+                profile = Profile.objects.get(user=request.user.id)
+                if img:
+                    profile.profile_image = img
+                    profile.save()
+            except:
+                if img:
+                    data = Profile(
+                        user=user,
+                        profile_image=img,
+                    )
+                    data.save()
+        user.save()
+        return HttpResponseRedirect('/t/')
+    else:
+        user = User.objects.get(pk=pk)
+        context = {'user': user}
+        return render(request, 'test.html', context)
 
     # b = 12
     # # a = Routine.objects.filter(user=request.user.id)._values('pk')
@@ -299,5 +400,3 @@ def test(request):
     # #     date = 'true'
     # # print(todays_date, date)
     # # if todays_date.today_date == date:
-
-

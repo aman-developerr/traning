@@ -10,30 +10,6 @@
 <body >
 
 
-
-          {% if 'trai'|has_group:request.user.id %}
-
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'today' %}">Today</a>
-          </li>
-
-
-                <li class="nav-item active">
-                    <a href="{% url 'trainee' %}" class="nav-link">Trainee Details</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'notifications' request.user.id %}">Notifications</a>
-                </li>
-
-            <a href="{% url 'logout' %}" class="nav-link">Logout</a>
-
-            {% endif %}
-
-
-
     <style>
     p{
         font-family: sans-serif;
@@ -132,7 +108,7 @@
                             </li>
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light">
-                                    <img src="{{ user.profile.profile_image.url }}" class="img-radius" alt="User-Profile-Image">
+                                    <img src="{{ user.profile.file.url }}" class="img-radius" alt="User-Profile-Image">
                                     <span>{{ request.user }}</span>
                                     <i class="ti-angle-down"></i>
                                 </a>
@@ -155,7 +131,7 @@
                         <div class="pcoded-inner-navbar main-menu">
                             <div class="">
                                 <div class="main-menu-header">
-                                    <img class="img-80 img-radius" src="{{ user.profile.profile_image.url }}" alt="User-Profile-Image">
+                                    <img class="img-80 img-radius" src="{{ user.profile.file.url }}" alt="User-Profile-Image">
                                     <div class="user-details">
                                         <span id="more-details">{{ request.user }}<i class="fa fa-caret-down"></i></span>
                                     </div>
@@ -187,6 +163,13 @@
                                     <a href="{% url 'today' %}" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class=""></i><b>D</b></span>
                                         <span class="pcoded-mtext">Today</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{% url 'feedback' %}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class=""></i><b>D</b></span>
+                                        <span class="pcoded-mtext">Feedback</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
@@ -222,7 +205,7 @@
                                     <div class="col-md-4">
                                         <ul class="breadcrumb">
                                             <li class="breadcrumb-item">
-                                                <p class="m-b-0 mr-4 " id="timer">Welcome to Cubexo Daily Routine Update</p>
+                                                 <p class="mr-5" id="timer"></p>
                                             </li>
                                             <li class="breadcrumb-item">
                                                 <a href="/"> <i class="fa fa-home"></i> </a>
@@ -252,22 +235,14 @@
     <script type="text/javascript" src="{% get_static_prefix %}js/jquery/jquery.min.js "></script>
     <script type="text/javascript" src="{% get_static_prefix %}js/jquery-ui/jquery-ui.min.js "></script>
     <script type="text/javascript" src="{% get_static_prefix %}js/popper.js/popper.min.js"></script>
-    <script type="text/javascript" src="{% get_static_prefix %}js/bootstrap/js/bootstrap.min.js "></script>
     <!-- waves js -->
-    <script src="{% get_static_prefix %}pages/waves/js/waves.min.js"></script>
-    <!-- jquery slimscroll js -->
-    <script type="text/javascript" src="{% get_static_prefix %}js/jquery-slimscroll/jquery.slimscroll.js"></script>
-
-    <!-- slimscroll js -->
-    <script src="{% get_static_prefix %}js/jquery.mCustomScrollbar.concat.min.js "></script>
 
     <!-- menu js -->
-    <script src="{% get_static_prefix %}js/pcoded.min.js"></script>
-    <script src="{% get_static_prefix %}js/vertical/vertical-layout.min.js "></script>
-
+       <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/cropper.min.js' %}"></script>
     <script type="text/javascript" src="{% get_static_prefix %}js/script.js "></script>
-    <script type="text/javascript" src="{% get_static_prefix %}js/bootstrap-growl.min.js"></script>
-    <script type="text/javascript" src="{% get_static_prefix %}pages/notification/notification.js"></script>
+
     <script src="{% get_static_prefix %}js/pcoded.min.js"></script>
     <script src="{% get_static_prefix %}js/vertical/vertical-layout.min.js"></script>
     <script src="{% get_static_prefix %}js/jquery.mCustomScrollbar.concat.min.js"></script>
@@ -280,8 +255,14 @@
       var d = new Date();
       document.getElementById("timer").innerHTML = d.toLocaleTimeString();
     }
+
     </script>
-</div>
+
+    {% block js2 %}
+
+    {% endblock %}
+
+    </div>
 </body>
 </html>
 

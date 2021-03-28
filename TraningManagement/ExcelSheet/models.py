@@ -20,7 +20,7 @@ class Routine(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_image = models.ImageField(upload_to='media/', max_length=255, blank=True)
+    file = models.ImageField(upload_to='media/', max_length=255, blank=True)
 
 
 class FeedbackRequest(models.Model):

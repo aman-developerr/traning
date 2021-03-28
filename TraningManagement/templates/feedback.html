@@ -2,7 +2,7 @@
 {% load template_auth %}
 {% load static   %}
 {% block page_name %}
-Profile
+Feedback
 {% endblock %}
 
 {% block page %}
@@ -14,6 +14,166 @@ Feedback
 {% endblock %}
 
 {% block body %}
+    <div class="">
+        <ul class="nav nav-pills mr-auto ml-auto align-items-center"  id="pills-tab" role="tablist">
+          <li class="nav-item align-content-around ">
+            <a class="nav-link active" id="pills-feedback-request-tab" data-toggle="pill" href="#pills-feedback-request" role="tab" aria-controls="pills-feedback-request" aria-selected="true">Feedback Request</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-requested-tab" data-toggle="pill" href="#pills-requested" role="tab" aria-controls="pills-requested" aria-selected="false">Requested</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-feedback-tab" data-toggle="pill" href="#pills-feedback" role="tab" aria-controls="pills-feedback" aria-selected="false">Feedbacks</a>
+          </li>
+            {% if 'trainers'|has_group:request.user.id %}
+              <li class="nav-item">
+                <a class="nav-link" id="pills-requests-tab" data-toggle="pill" href="#pills-requests" role="tab" aria-controls="pills-requests" aria-selected="false">Requests</a>
+              </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="tab-content" id="pills-tabContent">
+
+        <div class="tab-pane fade show active" id="pills-feedback-request" role="tabpanel" aria-labelledby="pills-feedback-request-tab">
+            <div class="container mt-3">
+                <h3 class="text-center">Send Feedback Request</h3>
+                <div class="row mt-3">
+                    <div class="col-sm-12 offset-md-3 col-md-6">
+                        <form class="md-float-material form-material" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="auth-box card">
+                                <div class="card-block">
+                                    <div class="row m-b-20 text-center">
+
+                                    </div>
+                                    <div class="form-group form-primary">
+                                        <label class="col-form-label">Trainer Name:</label>
+                                        <select name="trainer_name" class="form-control">
+                                            {% for trainer in trainers %}
+                                                <option value="{{ trainer.username }}">{{ trainer.username }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <span class="form-bar"></span>
+                                    </div>
+                                    <div class="row m-t-30">
+                                        <div class="col-md-12">
+                                            <button type="submit"  class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Send Request</button>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+
+        <div class="tab-pane fade" id="pills-requested" role="tabpanel" aria-labelledby="pills-requested-tab">
+            <div class="page-body">
+                <h3 class="text-center mt-3">Your Pending Requests</h3>
+                <div class="row mt-3">
+                    {% for feedbackreq in feedback_requested %}
+                        <div class="col-xl-4 col-lg-6  col-md-12 col-sm-12">
+                            <div class="card">
+                                <div class="card-block pcoded-mtext">
+                                    <h5 class="text-primary text-center m-b-0"></h5>
+                                    <p class="m-t-15 m-b-15">Trainer:{{ feedbackreq.trainer }}</p>
+                                    <p class="m-t-15 m-b-15">Request Time: {{ feedbackreq.request_time }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+        </div>
+
+        <div class="tab-pane fade" id="pills-feedback" role="tabpanel" aria-labelledby="pills-feedback-tab">
+            <div class="page-body">
+                <h3 class="text-center mt-3">Feedbacks</h3>
+                <div class="row mt-3">
+                    {% for feedback in feedbacks %}
+                        <div class="col-xl-4 col-lg-6  col-md-12 col-sm-12">
+                            <div class="card">
+                                <div class="card-block pcoded-mtext">
+                                    <h5 class="text-primary text-center m-b-0"></h5>
+                                    <p class="m-t-15 m-b-15">Trainer:{{ feedback.trainer }}</p>
+                                    <p class="m-t-15 m-b-15">Feedback: {{ feedback.feedback }}</p>
+                                    <p class="m-t-15 m-b-15">Time: {{ feedback.feedback_time }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+      </div>
+
+        {% if 'trainers'|has_group:request.user.id %}
+            <div class="tab-pane fade" id="pills-requests" role="tabpanel" aria-labelledby="pills-requests-tab">
+                <div class="page-body">
+                    <h3 class="text-center mt-3">Got Requests</h3>
+                    <div class="row mt-3 justify-content-around">
+                        {% for feedbackreq in feedback_requests %}
+                            <form class="md-float-material form-material" method="post" action="{% url 'feedback_add' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="feedback_id" value="{{ feedbackreq.id }}">
+                                <input type="hidden" name="trainee_id" value=" {{ feedbackreq.user.id }}">
+                                <div class="auth-box card">
+                                    <div class="card-block">
+                                        <p class="sub-title">TRAINEE:&nbsp;--&nbsp;{{ feedbackreq.user }}</p>
+                                        <p class="sub-title">REQUEST TIME:&nbsp;--&nbsp;{{ feedbackreq.request_time }}</p>
+                                        <div class="form-group form-primary">
+                                            <label class="col-form-label">Feedback:</label>
+                                            <textarea class="form-control" name="feedback">
+                                            </textarea>
+                                            <span class="form-bar"></span>
+                                        </div>
+                                        <div class="row m-t-30">
+                                            <div class="col-md-12">
+                                                <button type="submit"  class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Send Feedback</button>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                </div>
+                            </form>
+                        {% endfor %}
+                    </div>
+                </div>
+                <hr>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <h1>
     ask for feedack
@@ -64,6 +224,7 @@ requested user - {{ feedbackreq.user }}
     <form method="post" action="{% url 'feedback_add' %}" >
     {% csrf_token %}
     <input type="text" name="feedback">
+    <input type="text" name="feedback_id" value="{{ feedbackreq.id }}">
     <input type="text" name="trainee_id" value=" {{ feedbackreq.user.id }}">
      <input type="submit" class="btn btn-danger">
 
@@ -74,6 +235,3 @@ requested user - {{ feedbackreq.user }}
 {% endfor %}
 
 {% endif %}
-
-{% endblock %}
-

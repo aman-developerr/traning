@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
+Trainee
+{% endblock %}
+{% block page_name %}
+Trainee
+{% endblock %}
+
+{% block page %}
 Trainee
 {% endblock %}
 {% block body %}
@@ -12,9 +20,18 @@ Trainee
                         {% for trainee in trainees %}
                             <div class="col-xl-4 col-lg-6  col-md-12 col-sm-12">
                                 <a href="{% url 'trainee_details' trainee.id %}">
+
                                     <div class="card  order-visitor-card">
+                                         <div class=" offset-md-4 col-md-4 justify-content-around">
+
+                                        {% if trainee.profile.file %}
+                                            <img class="img-100 img-radius" alt="deleted" src="{{ trainee.profile.file.url }}">
+                                        {% else %}
+                                             <img class="img-100 img-radius" src="{% get_static_prefix %}images/avatar-4.jpg" >
+                                        {% endif %}
+
+                                    </div>
                                         <div class="card-block">
-                                            <h5 class="text-center m-b-0">Image</h5>
                                             <h6 class="m-t-15 m-b-15">First Name: {{ trainee.first_name }}</h6>
                                             <h6 class="m-t-15 m-b-15">Last Name: {{ trainee.last_name }}</h6>
                                             <h6 class="m-t-15 m-b-15">Username: {{ trainee.username }}</h6>

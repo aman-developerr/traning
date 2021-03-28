@@ -1,48 +1,687 @@
-{% extends 'base.html' %}
-{% block title %}
-Today
-{% endblock %}
-{% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="offset-md-4 col-md-4 offset-sm-3 col-sm-6">
-                <form method="post" id="myForm">
-                    {% csrf_token %}
+{% load template_auth %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-                        <h4 class="text-white">Today's Check-In</h4><br>
-                        <input type="text" class="form-control" disabled value="{{ todays_date }}">
-                        <input type="text" id="longitude" name="longitude">
-                        <input type="text" id="latitude" name="latitude"><br>
-                        <input type="button" onclick="SubmitFunction(); getLocation();" class="btn btn-outline-primary"  value="Check-In">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="{% static 'css/cropper.min.css' %}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
 
-                </form>
+
+
+    <!-- waves.css -->
+    <link rel="stylesheet" href="{% get_static_prefix %}pages/waves/css/waves.min.css" type="text/css" media="all">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/bootstrap/css/bootstrap.min.css">
+    <!-- waves.css -->
+
+    <!-- themify icon -->
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}icon/themify-icons/themify-icons.css">
+    <!-- font-awesome-n -->
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/font-awesome-n.min.css">
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/font-awesome.min.css">
+    <!-- scrollbar.css -->
+
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/style.css">
+
+</head>
+<body >
+
+
+
+
+
+
+    <style>
+    p{
+        font-family: sans-serif;
+        font-size: 16px;
+    }
+    </style>
+
+
+
+
+    <div id="pcoded" class="pcoded">
+        <div class="pcoded-overlay-box"></div>
+        <div class="pcoded-container navbar-wrapper">
+            <nav class="navbar header-navbar pcoded-header">
+                <div class="navbar-wrapper">
+                    <div class="navbar-logo">
+                        <a class="mobile-menu waves-effect waves-light" id="mobile-collapse" href="#!">
+                            <i class="ti-menu"></i>
+                        </a>
+                        <a href="/">
+                            <img class="img-fluid" src="{% get_static_prefix %}images/logo.png" alt="Theme-Logo" />
+                        </a>
+                        <a class="mobile-options waves-effect waves-light">
+                            <i class="ti-more"></i>
+                        </a>
+                    </div>
+                    <div class="navbar-container container-fluid">
+                        <ul class="nav-left">
+                            <li>
+                                <div class="sidebar_toggle"><a href="javascript:void(0)"><i class="ti-menu"></i></a></div>
+                            </li>
+                            <li>
+                                <a href="#!" onclick="javascript:toggleFullScreen()" class="waves-effect waves-light">
+                                    <i class="ti-fullscreen"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav-right">
+                            <li class="header-notification">
+                                <a href="{% url 'notifications' request.user.id %}" class="waves-effect waves-light">
+                                    <i class="ti-bell"></i>
+                                    <span class="badge bg-c-red"></span>
+                                </a>
+
+                            </li>
+                            <li class="user-profile header-notification">
+                                <a href="#!" class="waves-effect waves-light">
+                                    <img src="{{ user.profile.file.url }}" class="img-radius" alt="User-Profile-Image">
+                                    <span>{{ request.user }}</span>
+                                    <i class="ti-angle-down"></i>
+                                </a>
+                                <ul class="show-notification profile-notification">
+                                    <li class="waves-effect waves-light">
+                                        <a href="{% url 'logout' %}">
+                                            <i class="ti-layout-sidebar-left"></i> Logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="pcoded-main-container">
+                <div class="pcoded-wrapper">
+                    <nav class="pcoded-navbar">
+                        <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
+                        <div class="pcoded-inner-navbar main-menu">
+                            <div class="">
+                                <div class="main-menu-header">
+                                    <img class="img-80 img-radius" src="{{ user.profile.file.url }}" alt="User-Profile-Image">
+                                    <div class="user-details">
+                                        <span id="more-details">{{ request.user }}<i class="fa fa-caret-down"></i></span>
+                                    </div>
+                                </div>
+                                <div class="main-menu-content">
+                                    <ul>
+                                        <li class="more-details">
+                                            <a href="{% url 'profile' request.user.id %}"><i class="ti-user"></i>View Profile</a>
+                                            <a href="{% url 'logout' %}"><i class="ti-layout-sidebar-left"></i>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="p-15 p-b-0">
+                            </div>
+                            <div class="pcoded-navigation-label">Navigation</div>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li class="">
+                                    <a href="/" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                        <span class="pcoded-mtext">Dashboard</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="pcoded-navigation-label">Current</div>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li class="">
+                                    <a href="{% url 'today' %}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class=""></i><b>D</b></span>
+                                        <span class="pcoded-mtext">Today</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href="{% url 'feedback' %}" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class=""></i><b>D</b></span>
+                                        <span class="pcoded-mtext">Feedback</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            {% if 'trainers'|has_group:request.user.id %}
+                                <div class="pcoded-navigation-label">Details</div>
+                                    <ul class="pcoded-item pcoded-left-item">
+                                        <li class="">
+                                            <a href="{% url 'trainee' %}" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+                                                <span class="pcoded-mtext">Trainee</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                    </nav>
+                    <div class="pcoded-content">
+                        <!-- Page-header start -->
+                        <div class="page-header">
+                            <div class="page-block">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <div class="page-header-title">
+                                            <h5 class="m-b-10">{% block page_name %}
+                                            {% endblock %}</h5>
+                                            <p class="m-b-0">Welcome to Cubexo Daily Routine Update</p>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <ul class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                 <p class="mr-5" id="timer"></p>
+                                            </li>
+                                            <li class="breadcrumb-item">
+                                                <a href="/"> <i class="fa fa-home"></i> </a>
+                                            </li>
+                                            <li class="breadcrumb-item">{% block page %}
+                                            {% endblock %}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Page-header end -->
+                        <div class="pcoded-inner-content">
+
+
+
+                                 <!-- MODAL TO CROP THE IMAGE -->
+                                <div class="modal fade" id="modalCrop">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h4 class="modal-title">Crop the photo</h4>
+                                      </div>
+                                      <div class="modal-body">
+                                        <img src="" id="image" style="max-width: 100%;">
+                                      </div>
+                                      <div class="modal-footer">
+                                        <div class="btn-group pull-left" role="group">
+                                          <button type="button" class="btn btn-default js-zoom-in">
+                                            <span class="glyphicon glyphicon-zoom-in"></span>
+                                          </button>
+                                          <button type="button" class="btn btn-default js-zoom-out">
+                                            <span class="glyphicon glyphicon-zoom-out"></span>
+                                          </button>
+                                        </div>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Nevermind</button>
+                                        <button type="button" class="btn btn-primary js-crop-and-upload">Crop and upload</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                                <!-- Profile Form -->
+                                  <section class="login-block">
+                                   <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <form class="md-float-material form-material" id="formUpload" method="post" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <input type="text" name="x" id="id_x">
+                                                    <input type="hidden" name="y" id="id_y">
+                                                    <input type="hidden" name="width" id="id_width">
+                                                    <input type="hidden" name="height" id="id_height">
+                                                    <div class="auth-box card">
+                                                        <div class="card-block">
+                                                            <div class="row m-b-20">
+                                                                <div class=" offset-md-4 col-md-4 justify-content-around">
+
+                                                                    {% if user.profile.file %}
+                                                                        <label class="label" for="id_file" data-toggle="tooltip" title="Click to Change">
+                                                                          <img class="rounded"  src="{{ user.profile.file.url }}" alt="avatar">
+                                                                          <input type="file" class="sr-only" id="id_file" name="file" accept="image/*">
+                                                                        </label>
+                                                                    {% else %}
+                                                                        <label for="id_file" class="label" data-toggle="tooltip" title="Click to Change">
+                                                                          <img class="rounded" id="avatar" src="{% get_static_prefix %}images/avatar-1.jpg" alt="avatar">
+                                                                          <input type="file" class="sr-only" id="id_file" name="file" accept="image/*">
+                                                                        </label>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-primary">
+                                                                <label class="col-form-label">Username:</label>
+                                                                <input type="text" disabled value="{{ user.username }}" class="form-control">
+                                                                <span class="form-bar"></span>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group form-primary">
+                                                                        <label class="col-form-label">First Name:</label>
+                                                                        <input type="text" name='first_name' class="form-control" value="{{ user.first_name }}">
+                                                                        <span class="form-bar"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group form-primary">
+                                                                        <label class="col-form-label">Last Name:</label>
+                                                                        <input type="text" name='last_name' value="{{ user.last_name }}" class="form-control">
+                                                                        <span class="form-bar"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-primary">
+                                                                <label class="col-form-label">Email:</label>
+                                                                <input type="email" name="email" class="form-control" value="{{ user.email }}">
+                                                                <span class="form-bar"></span>
+                                                            </div>
+                                                            <div class="row m-t-30">
+                                                                <div class="col-md-12">
+                                                                    <button type="submit"  class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">UPDATE</button>
+                                                                </div>
+                                                            </div>
+                                                            <hr/>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                   </div>
+                                </section>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-<script>
-var longitude = document.getElementById("longitude");
-var latitude = document.getElementById("latitude");
-function SubmitFunction(){
-    getLocation();
-    alert('confirm');
-    setTimeout(f,5000);
-    function f() {
 
-        document.getElementById("myForm");
+
+    <script type="text/javascript" src="{% get_static_prefix %}js/jquery/jquery.min.js "></script>
+    <script type="text/javascript" src="{% get_static_prefix %}js/jquery-ui/jquery-ui.min.js "></script>
+    <script type="text/javascript" src="{% get_static_prefix %}js/popper.js/popper.min.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/cropper.min.js' %}"></script>
+    <!-- menu js -->
+    <script src="{% get_static_prefix %}js/pcoded.min.js"></script>
+    <script src="{% get_static_prefix %}js/vertical/vertical-layout.min.js "></script>
+
+
+
+
+          <script>
+        document.querySelector('.fixed-button').innerHTML="a";
+    </script>
+          <script>
+    var myVar = setInterval(myTimer ,1000);
+    function myTimer() {
+      var d = new Date();
+      document.getElementById("timer").innerHTML = d.toLocaleTimeString();
     }
-}
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else {
-    longitude = 0;
-    latitude = 0;
-  }
-}
-function showPosition(position) {
-    latitude.value = position.coords.latitude;
-    longitude.value = position.coords.longitude;
- }
-</script>
-{% endblock %}
+    </script>
+
+    <script>
+
+        $(function () {
+
+          /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+          $("#id_file").change(function () {
+            if (this.files && this.files[0]) {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                $("#image").attr("src", e.target.result);
+                $("#modalCrop").modal("show");
+              }
+              reader.readAsDataURL(this.files[0]);
+            }
+          });
+
+          /* SCRIPTS TO HANDLE THE CROPPER BOX */
+          var $image = $("#image");
+          var cropBoxData;
+          var canvasData;
+          $("#modalCrop").on("shown.bs.modal", function () {
+            $image.cropper({
+              viewMode: 1,
+              aspectRatio: 1/1,
+              minCropBoxWidth: 200,
+              minCropBoxHeight: 200,
+              ready: function () {
+                $image.cropper("setCanvasData", canvasData);
+                $image.cropper("setCropBoxData", cropBoxData);
+              }
+            });
+          }).on("hidden.bs.modal", function () {
+            cropBoxData = $image.cropper("getCropBoxData");
+            canvasData = $image.cropper("getCanvasData");
+            $image.cropper("destroy");
+          });
+
+          $(".js-zoom-in").click(function () {
+            $image.cropper("zoom", 0.1);
+          });
+
+          $(".js-zoom-out").click(function () {
+            $image.cropper("zoom", -0.1);
+          });
+
+          /* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */
+          $(".js-crop-and-upload").click(function () {
+            var cropData = $image.cropper("getData");
+            $("#id_x").val(cropData["x"]);
+            $("#id_y").val(cropData["y"]);
+            $("#id_height").val(cropData["height"]);
+            $("#id_width").val(cropData["width"]);
+            $("#formUpload").submit();
+          });
+
+        });
+    </script>
+
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{##}
+{##}
+{#{% load static %}#}
+{#<head>#}
+{#    <meta charset="utf-8">#}
+{#    <meta http-equiv="X-UA-Compatible" content="IE=edge">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1">#}
+{#    <title>{% block title %}Simple is Better Than Complex{% endblock %}</title>#}
+{#    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">#}
+{#    <!--[if lt IE 9]>#}
+{#      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>#}
+{#      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>#}
+{#    <![endif]-->#}
+{#    <link href="{% static 'css/cropper.min.css' %}" rel="stylesheet">#}
+{#  </head>#}
+{##}
+{# <!-- MODAL TO CROP THE IMAGE -->#}
+{# <div class="modal fade" id="modalCrop">#}
+{#  <div class="modal-dialog">#}
+{#    <div class="modal-content">#}
+{#      <div class="modal-header">#}
+{#        <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#          <span aria-hidden="true">&times;</span>#}
+{#        </button>#}
+{#        <h4 class="modal-title">Crop the photo</h4>#}
+{#      </div>#}
+{#      <div class="modal-body">#}
+{#        <img src="" id="image" style="max-width: 100%;">#}
+{#      </div>#}
+{#      <div class="modal-footer">#}
+{#        <div class="btn-group pull-left" role="group">#}
+{#          <button type="button" class="btn btn-default js-zoom-in">#}
+{#            <span class="glyphicon glyphicon-zoom-in"></span>#}
+{#          </button>#}
+{#          <button type="button" class="btn btn-default js-zoom-out">#}
+{#            <span class="glyphicon glyphicon-zoom-out"></span>#}
+{#          </button>#}
+{#        </div>#}
+{#        <button type="button" class="btn btn-default" data-dismiss="modal">Nevermind</button>#}
+{#        <button type="button" class="btn btn-primary js-crop-and-upload">Crop and upload</button>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
+{##}
+{##}
+{#      <div class="container">#}
+{#          <div class="row">#}
+{#              <form class="md-float-material form-material" id="formUpload" method="post" enctype="multipart/form-data">#}
+{#                    {% csrf_token %}#}
+{#                  <input type="hidden" name="x" id="id_x">#}
+{#                  <input type="hidden" name="y" id="id_y">#}
+{#                  <input type="hidden" name="width" id="id_width">#}
+{#                  <input type="hidden" name="height" id="id_height">#}
+{#                    <div class="auth-box card">#}
+{#                        <div class="card-block">#}
+{#                            <div class="row m-b-20">#}
+{#                                <div class=" offset-md-4 col-md-4 justify-content-around">#}
+{##}
+{#                                    {% if user.profile.file %}#}
+{#                                        <label class="label" for="id_file" data-toggle="tooltip" title="Change your avatar">#}
+{#                                          <img class="rounded"  src="{{ user.profile.profile_image.url }}" alt="avatar">#}
+{#                                          <input type="file"  id="id_file" name="file" accept="image/*">#}
+{#                                        </label>#}
+{#                                    {% else %}#}
+{#                                        <label for="id_file" class="label" data-toggle="tooltip" title="Change your avatar">#}
+{#                                          <img class="rounded" id="avatar" src="{% get_static_prefix %}images/avatar-1.jpg" alt="avatar">#}
+{#                                          <input type="file" class="sr-only" id="id_file" name="file" accept="image/*">#}
+{#                                        </label>#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="form-group form-primary">#}
+{#                                <label class="col-form-label">Username:</label>#}
+{#                                <input type="text" disabled value="{{ user.username }}" class="form-control">#}
+{#                                <span class="form-bar"></span>#}
+{#                            </div>#}
+{#                            <div class="row">#}
+{#                                <div class="col-sm-6">#}
+{#                                    <div class="form-group form-primary">#}
+{#                                        <label class="col-form-label">First Name:</label>#}
+{#                                        <input type="text" name='first_name' class="form-control" value="{{ user.first_name }}">#}
+{#                                        <span class="form-bar"></span>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="col-sm-6">#}
+{#                                    <div class="form-group form-primary">#}
+{#                                        <label class="col-form-label">Last Name:</label>#}
+{#                                        <input type="text" name='last_name' value="{{ user.last_name }}" class="form-control">#}
+{#                                        <span class="form-bar"></span>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="form-group form-primary">#}
+{#                                <label class="col-form-label">Email:</label>#}
+{#                                <input type="email" name="email" class="form-control" value="{{ user.email }}">#}
+{#                                <span class="form-bar"></span>#}
+{#                            </div>#}
+{#                            <div class="row m-t-30">#}
+{#                                <div class="col-md-12">#}
+{#                                    <button type="submit"  class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">UPDATE</button>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <hr/>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    </form>#}
+{#          </div>#}
+{#      </div>#}
+{#  </div>#}
+{#</body>#}
+{#</html>#}
+{##}
+{#<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>#}
+{#    <script src="{% static 'js/bootstrap.min.js' %}"></script>#}
+{#    <script src="{% static 'js/cropper.min.js' %}"></script>#}
+{#<script>#}
+{##}
+{#    $(function () {#}
+{##}
+{#      /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */#}
+{#      $("#id_file").change(function () {#}
+{#        if (this.files && this.files[0]) {#}
+{#          var reader = new FileReader();#}
+{#          reader.onload = function (e) {#}
+{#            $("#image").attr("src", e.target.result);#}
+{#            $("#modalCrop").modal("show");#}
+{#          }#}
+{#          reader.readAsDataURL(this.files[0]);#}
+{#        }#}
+{#      });#}
+{##}
+{#      /* SCRIPTS TO HANDLE THE CROPPER BOX */#}
+{#      var $image = $("#image");#}
+{#      var cropBoxData;#}
+{#      var canvasData;#}
+{#      $("#modalCrop").on("shown.bs.modal", function () {#}
+{#        $image.cropper({#}
+{#          viewMode: 1,#}
+{#          aspectRatio: 1/1,#}
+{#          minCropBoxWidth: 200,#}
+{#          minCropBoxHeight: 200,#}
+{#          ready: function () {#}
+{#            $image.cropper("setCanvasData", canvasData);#}
+{#            $image.cropper("setCropBoxData", cropBoxData);#}
+{#          }#}
+{#        });#}
+{#      }).on("hidden.bs.modal", function () {#}
+{#        cropBoxData = $image.cropper("getCropBoxData");#}
+{#        canvasData = $image.cropper("getCanvasData");#}
+{#        $image.cropper("destroy");#}
+{#      });#}
+{##}
+{#      $(".js-zoom-in").click(function () {#}
+{#        $image.cropper("zoom", 0.1);#}
+{#      });#}
+{##}
+{#      $(".js-zoom-out").click(function () {#}
+{#        $image.cropper("zoom", -0.1);#}
+{#      });#}
+{##}
+{#      /* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */#}
+{#      $(".js-crop-and-upload").click(function () {#}
+{#        var cropData = $image.cropper("getData");#}
+{#        $("#id_x").val(cropData["x"]);#}
+{#        $("#id_y").val(cropData["y"]);#}
+{#        $("#id_height").val(cropData["height"]);#}
+{#        $("#id_width").val(cropData["width"]);#}
+{#        $("#formUpload").submit();#}
+{#      });#}
+{##}
+{#    });#}
+{#  </script>#}
+
+

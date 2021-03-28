@@ -4,8 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6993913-e357-4003-aa18-6ef48df3d94f" name="Default Changelist" comment="UI 4">
+    <list default="true" id="c6993913-e357-4003-aa18-6ef48df3d94f" name="Default Changelist" comment="addws cdnfiles">
+      <change afterPath="$PROJECT_DIR$/ExcelSheet/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/TraningManagement.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TraningManagement.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExcelSheet/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExcelSheet/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExcelSheet/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExcelSheet/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExcelSheet/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExcelSheet/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/media/Aman.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/media/blog-01.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/media/blog-02.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/media/blog-02_7O5Avvl.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/media/blog-02_9fZG3HS.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/images/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cdn.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cdn.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/edit_routine.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/edit_routine.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/feedback.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/feedback.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/notification.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/notification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/trainee_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trainee_profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/trainees.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trainees.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +40,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -28,6 +50,11 @@
       <list>
         <option value="aman-paliwal-cubexo &lt;amanp.cubexo@gmail.com&gt;" />
       </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -77,6 +104,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="TraningManagement.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -130,6 +158,18 @@
       <workItem from="1615974341294" duration="4991000" />
       <workItem from="1615980952821" duration="6628000" />
       <workItem from="1616044705524" duration="2746000" />
+      <workItem from="1616075858702" duration="672000" />
+      <workItem from="1616079804222" duration="292000" />
+      <workItem from="1616084955163" duration="6871000" />
+      <workItem from="1616132075455" duration="17503000" />
+      <workItem from="1616434636294" duration="3248000" />
+      <workItem from="1616478872283" duration="6801000" />
+      <workItem from="1616499579957" duration="8896000" />
+      <workItem from="1616519772872" duration="4146000" />
+      <workItem from="1616525685980" duration="120000" />
+      <workItem from="1616561219807" duration="11859000" />
+      <workItem from="1616606751873" duration="815000" />
+      <workItem from="1616656554659" duration="355000" />
     </task>
     <task id="LOCAL-00001" summary="virtual environment created">
       <created>1615023175179</created>

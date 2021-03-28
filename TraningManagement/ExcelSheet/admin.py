@@ -4,7 +4,7 @@ from .models import Routine,Feedback,Profile,FeedbackRequest
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user','profile_image']
+    list_display = ['user','file']
 
 @admin.register(Routine)
 class RoutineAdmin(admin.ModelAdmin):

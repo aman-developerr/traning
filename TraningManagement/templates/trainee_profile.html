@@ -1,11 +1,19 @@
 {% extends 'base.html'%}
+
 {% load template_auth %}
+
 {% block title %}
 Trainee Details
 {% endblock %}
+
 {% block page_name %}
 {{ trainee }}
 {% endblock %}
+
+{% block page %}
+{{ trainee }}
+{% endblock %}
+
 {% block body %}
     {% if routines %}
         <style>
