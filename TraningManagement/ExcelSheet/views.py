@@ -163,10 +163,15 @@ def trainee(request):
 
 @login_required(login_url=login_url)
 def trainee_details(request, pk):
-    routines = Routine.objects.filter(user=pk).order_by('-today_date')
     trainee = User.objects.get(pk=pk)
-    context = {'name': request.user, 'routines': routines, 'trainee': trainee}
-    return render(request, 'trainee_profile.html', context=context)
+    print(trainee.get_all_permissions())
+    if len(trainee.get_all_permissions())  < 10:
+        routines = Routine.objects.filter(user=pk).order_by('-today_date')
+        print(len(trainee.get_all_permissions()))
+        context = {'name': request.user, 'routines': routines, 'trainee': trainee}
+        return render(request, 'trainee_profile.html', context=context)
+    else:
+        return HttpResponseRedirect('/trainee/')
 
 
 @login_required(login_url=login_url)
@@ -189,63 +194,67 @@ def notifications(request, pk):
 
 @login_required(login_url=login_url)
 def profile(request, pk):
-    if request.method == "POST":
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        email = request.POST['email']
-        try:
-            img = request.FILES['file']
-            x = float(request.POST['x'])
-            y = float(request.POST['y'])
-            w = float(request.POST['width'])
-            h = float(request.POST['height'])
-
-            image = Image.open(img)
-
-            cropped_image = image.crop((x, y, w + x, h + y))
-
-            resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
-
-            pic_io = BytesIO()
-
-            resized_image.save(pic_io, image.format)
-
-            pic_file = InMemoryUploadedFile(
-                file=pic_io, field_name=None, name=img.name, content_type=img.content_type, size=img.size, charset=None
-            )
-
-        except:
-            pic_file = False
-        user = User.objects.get(pk=pk)
-        if first_name:
-            user.first_name = first_name
-        if last_name:
-            user.last_name = last_name
-        if email:
-            user.email = email
-        print('a')
-        if pic_file:
-            print('a')
+    if request.user.pk == pk:
+        if request.method == "POST":
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            email = request.POST['email']
             try:
-                profile = Profile.objects.get(user=request.user.id)
-                if pic_file:
-                    profile.file = pic_file
-                    profile.save()
-                    print('a')
+                img = request.FILES['file']
+                x = float(request.POST['x'])
+                y = float(request.POST['y'])
+                w = float(request.POST['width'])
+                h = float(request.POST['height'])
+
+                image = Image.open(img)
+
+                cropped_image = image.crop((x, y, w + x, h + y))
+
+                resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
+
+                pic_io = BytesIO()
+
+                resized_image.save(pic_io, image.format)
+
+                pic_file = InMemoryUploadedFile(
+                    file=pic_io, field_name=None, name=img.name, content_type=img.content_type, size=img.size, charset=None
+                )
+
             except:
-                if pic_file:
-                    data = Profile(
-                        user=user,
-                        file=pic_file,
-                    )
-                    data.save()
-        user.save()
-        messages.success(request,'Update Success full')
+                pic_file = False
+            user = User.objects.get(pk=pk)
+            if first_name:
+                user.first_name = first_name
+            if last_name:
+                user.last_name = last_name
+            if email:
+                user.email = email
+            print('a')
+            if pic_file:
+                print('a')
+                try:
+                    profile = Profile.objects.get(user=request.user.id)
+                    if pic_file:
+                        profile.file = pic_file
+                        profile.save()
+                        print('a')
+                except:
+                    if pic_file:
+                        data = Profile(
+                            user=user,
+                            file=pic_file,
+                        )
+                        data.save()
+            user.save()
+            messages.success(request,'Update Success full')
 
 
-    user = User.objects.get(pk=pk)
-    context = {'user': user}
-    return render(request, 'profile.html', context)
+        user = User.objects.get(pk=pk)
+        context = {'user': user}
+        return render(request, 'profile.html', context)
+
+    else:
+        return HttpResponseRedirect('/')
 
 
 @login_required(login_url=login_url)
